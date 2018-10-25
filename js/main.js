@@ -8,7 +8,7 @@ function setup() {
 }
 
 function draw() {
-    background(33);
+    // background(33);
     fill(233);
     textSize(24);
     textAlign(CENTER);
@@ -18,6 +18,21 @@ function draw() {
     fill(200);
     rect(time, 0, timeW, timeH);
     time--;
+
+    if(mouseIsPressed){
+        var point = {
+            x: mouseX,
+            y: mouseY
+        }
+        drawing.push(point.x,point.y);        
+    }
+
+    beginShape();
+    fill(230);
+    for(var i; i<drawing.length; i++){
+        vertex(drawing[i].x,drawing[i].y);
+    }
+    endShape();
     
 
 }
@@ -34,3 +49,6 @@ function windowResized() {
 // }
 
 var time, timeW, timeH, timeStart;
+
+var drawing[];
+
