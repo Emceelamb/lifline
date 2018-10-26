@@ -1,3 +1,4 @@
+
 var first, second;  
 function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL);
