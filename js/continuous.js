@@ -3,7 +3,7 @@ let drawing = [];
 let database;
 
 function setup() {
-    createCanvas(windowWidth, windowHeight, WEBGL);
+    createCanvas(2400, windowHeight);
 
 	// canvas.parent('canvascontainer');
 
@@ -19,7 +19,7 @@ function setup() {
 	};
 
 	firebase.initializeApp(config);
-	console.log(firebase);
+	// console.log(firebase);
 
 	//database object
 	database = firebase.database();
@@ -28,11 +28,12 @@ function setup() {
 	ref.on('value', gotData, errData);
 
     background(30);
-    drawAllLines();
-
+    
+    setTimeout(drawAllLines, 2000)
 }
 
 function draw() {
+    // drawAllLines();
 }
 
 let allDrawingPts = [];
@@ -58,18 +59,33 @@ function errData(err) {
 
 function drawAllLines(){
     
-    translate(-windowWidth/2, -windowHeight/2);
+    beginShape();
+    stroke(230);
+    strokeWeight(3);
+    noFill();
     
-	stroke(255);
-	strokeWeight(4);
-	noFill();
-	for (let i = 0; i > allDrawingPts.length; i++) {
+    
+    for(var i = 0; i<allDrawingPts.length; i++){
+        var path = allDrawingPts[i];
         beginShape();
-        for(let j = 0; j>allDrawingPts[i].length;j++){
-
-            vertex(allDrawingPts[i][j].x, allDrawingPts[i][j].y);
-            
+        for(var j = 0; j < path.length; j++){
+            for(var j = 0; j < path.length; j++){
+                vertex(path[j].x+i*200, path[j].y);
+            }
+            endShape();
         }
-        endShape();
-	}
+    }
+
+	// stroke(255);
+	// strokeWeight(4);
+	// noFill();
+	// for (let i = 0; i > allDrawingPts.length; i++) {
+    //     beginShape();
+    //     for(let j = 0; j>allDrawingPts[i].length;j++){
+
+    //         vertex(allDrawingPts[i][j].x, allDrawingPts[i][j].y);
+            
+    //     }
+    //     endShape();
+	// }
 }
