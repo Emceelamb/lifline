@@ -58,7 +58,7 @@ function errData(err) {
 
 function drawAllLines(){
     
-    // translate(-windowWidth/2, -windowHeight/2);
+    translate(-windowWidth/2, -windowHeight/2);
     
 	stroke(255);
 	strokeWeight(4);

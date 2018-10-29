@@ -98,7 +98,6 @@ function drawLine(){
     strokeWeight(3);
     noFill();
     push();
-    translate(-windowWidth/2,-windowHeight/2);
     for(var i=0; i<drawing.length; i++){
         vertex(drawing[i].x,drawing[i].y);
     }
