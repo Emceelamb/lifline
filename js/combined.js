@@ -5,7 +5,7 @@ let drawing = [];
 let database;
 
 function setup() {
-    createCanvas(windowWidth, windowHeight, WEBGL);
+    createCanvas(windowWidth, windowHeight);
     background(30);
 	// Initialize Firebase
 	var config = {
@@ -88,7 +88,7 @@ function drawLine(){
         var point = {
             x: mouseX,
             y: mouseY,
-            z: 0
+          
         }
         // add points to drawing
         drawing.push(point);       
@@ -100,7 +100,7 @@ function drawLine(){
     push();
     translate(-windowWidth/2,-windowHeight/2);
     for(var i=0; i<drawing.length; i++){
-        vertex(drawing[i].x,drawing[i].y, drawing[i].z);
+        vertex(drawing[i].x,drawing[i].y);
     }
     endShape();
     pop();
@@ -125,7 +125,6 @@ function drawEndpoints(){
     
     fill(233);
     noStroke();
-    translate(-windowWidth/2, -windowHeight/2);
     ellipse(100,windowHeight/2, 10,10);
     ellipse(windowWidth-100,windowHeight/2, 10,10);
 }

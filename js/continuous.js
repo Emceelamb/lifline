@@ -27,27 +27,49 @@ function setup() {
 	let ref = database.ref('drawings');
 	ref.on('value', gotData, errData);
 
-
+    background(30);
+    drawAllLines();
 
 }
 
 function draw() {
-	background(0);
-
-
 }
 
-let allDrawingKeys = [];
+let allDrawingPts = [];
 
 function gotData(data) {
 	let drawings = data.val();
 	let keys = Object.keys(drawings);
 	for (let i=0; i<keys.length; i++) {
 		let key = keys[i];
-		console.log(key);
+        // console.log(key);
+        var drawingCountRef = firebase.database().ref('drawings/' + key );
+        drawingCountRef.on('value', function(snapshot) {
+        // console.log(snapshot.val());
+        allDrawingPts.push(snapshot.val());
+        });
+
 	}
 }
 
 function errData(err) {
 	console.log(err);
+}
+
+function drawAllLines(){
+    
+    // translate(-windowWidth/2, -windowHeight/2);
+    
+	stroke(255);
+	strokeWeight(4);
+	noFill();
+	for (let i = 0; i > allDrawingPts.length; i++) {
+        beginShape();
+        for(let j = 0; j>allDrawingPts[i].length;j++){
+
+            vertex(allDrawingPts[i][j].x, allDrawingPts[i][j].y,0);
+            
+        }
+        endShape();
+	}
 }
