@@ -67,7 +67,7 @@ function drawAllLines(){
         beginShape();
         for(let j = 0; j>allDrawingPts[i].length;j++){
 
-            vertex(allDrawingPts[i][j].x, allDrawingPts[i][j].y,0);
+            vertex(allDrawingPts[i][j].x, allDrawingPts[i][j].y);
             
         }
         endShape();
