@@ -285,3 +285,7 @@ textarea {
         page-break-after: avoid;
     }
 }
+
+body{
+    background-color: #1E1E1E;
+}
