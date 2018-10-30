@@ -3,7 +3,7 @@ let drawing = [];
 let database;
 
 function setup() {
-    createCanvas(2400, windowHeight);
+    createCanvas(3000,500);
 
 	// canvas.parent('canvascontainer');
 
@@ -70,7 +70,7 @@ function drawAllLines(){
         beginShape();
         for(var j = 0; j < path.length; j++){
             for(var j = 0; j < path.length; j++){
-                vertex(path[j].x+i*200, path[j].y);
+                vertex(path[j].x+(i*950)*0.0001, path[j].y);
             }
             endShape();
         }

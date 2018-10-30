@@ -135,5 +135,6 @@ function resetDrawing(){
 	console.log("connected homie");
 	drawing=[];
 	background(30);
-	drawEndpoints();
+    drawEndpoints();
+    window.location = 'continuousline.html';
 }
