@@ -7,7 +7,7 @@ let panCons = -20;
 let heightCons = 0;
 
 function setup() {
-    createCanvas(3000,500);
+    createCanvas(windowWidth,windowHeight);
 
 	// canvas.parent('canvascontainer');
 
