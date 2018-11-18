@@ -17,7 +17,7 @@ function draw() {
         console.log("mouse is in start")
         isDrawing = true;
     }
-    if(isConnected&&mouseX < windowWidth-95 && mouseX > windowWidth-105 && mouseY < windowHeight/2 + 5 && mouseY > windowHeight/2 - 5){
+    if(isConnected&&mouseX < windowWidth-105 && mouseX > windowWidth-115 && mouseY < windowHeight/2 + 15 && mouseY > windowHeight/2 - 15){
         console.log("mouse is in end")
         isDrawing = false;
     }
@@ -65,7 +65,7 @@ function drawLine(){
 }
 
 function mouseReleased(){
-    if(mouseX < windowWidth-95 && mouseX > windowWidth-105 && mouseY < windowHeight/2 + 5 && mouseY > windowHeight/2 - 5){
+    if(mouseX < windowWidth-105 && mouseX > windowWidth-95 && mouseY < windowHeight/2 + 15 && mouseY > windowHeight/2 - 15){
         isConnected = true;
     } else if(!isConnected){
         isDrawing=false;
@@ -84,6 +84,6 @@ function drawEndpoints(){
     fill(233);
     noStroke();
     translate(-windowWidth/2, -windowHeight/2);
-    ellipse(100,windowHeight/2, 10,10);
-    ellipse(windowWidth-100,windowHeight/2, 10,10);
+    ellipse(100,windowHeight/2, 20,20);
+    ellipse(windowWidth-100,windowHeight/2, 20,20);
 }

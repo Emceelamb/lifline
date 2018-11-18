@@ -34,11 +34,11 @@ function setup() {
 function draw() {
     fill(255,0,0);
 
-    if(mouseIsPressed&&mouseX > 95 && mouseX < 105 && mouseY < windowHeight/2 + 5 && mouseY > windowHeight/2 - 5){
+    if(mouseIsPressed&&mouseX > 105 && mouseX < 105 && mouseY < windowHeight/2 + 15 && mouseY > windowHeight/2 - 15){
         console.log("mouse is in start")
         isDrawing = true;
     }
-    if(isConnected&&mouseX < windowWidth-95 && mouseX > windowWidth-105 && mouseY < windowHeight/2 + 5 && mouseY > windowHeight/2 - 5){
+    if(isConnected&&mouseX < windowWidth-85 && mouseX > windowWidth-85 && mouseY < windowHeight/2 -5 && mouseY > windowHeight/2 - 15){
         console.log("mouse is in end")
         isDrawing = false;
     }
@@ -125,7 +125,7 @@ function drawEndpoints(){
     fill(233);
     noStroke();
     ellipse(100,windowHeight/2, 10,10);
-    ellipse(windowWidth-100,windowHeight/2, 10,10);
+    ellipse(windowWidth-100,windowHeight/2, 20,20);
 }
 
 
@@ -136,5 +136,5 @@ function resetDrawing(){
 	drawing=[];
 	background(30);
     drawEndpoints();
-    window.location = 'continuousline.html';
+    // window.location = 'continuousline.html';
 }
