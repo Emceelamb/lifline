@@ -42,7 +42,8 @@ function setup() {
 
 function draw() {
     cameraControl();
-    camera(camX, 0, (height/2.0) / tan(PI*30.0 / 180.0)+camZ+1000, ln/2*400+camX, camX, 0, 0, 1, 0);
+    // camera(camX, camY, (height/2.0) / tan(PI*30.0 / 180.0)+camZ+1000, ln/2*400, 0, 0, 0, 1, 0);
+    camera(camX, camY, (height/2.0) / tan(PI*30.0 / 180.0)+camZ, ln/2*400, 0, 0, 0, camY, 0);
 
     background(30);
     drawAllLines();
@@ -129,3 +130,5 @@ function keyPressed() {
         camX=0,camY=0,camZ=0;
     }
 }
+
+    
