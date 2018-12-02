@@ -118,25 +118,32 @@ function drawAllLines(){
         translate(windowWidth/2,windowHeight/2)
         beginShape();
         // stroke(random(240))
-        stroke(i*30)
         for(var j = 0; j < allDrawingPts[i].length; j++){
+            stroke(i*30)
             allDrawingPts[i][j].y= allDrawingPts[i][j].y*map(mouseY,0,windowHeight,0.95,0.99);
             // allDrawingPts[i][j].y*=0.98
             // let r=map(allDrawingPts[i][j].y, allDrawingPts[i][0].y,allDrawingPts[i][allDrawingPts[i].length-1].y, 1, 1);
+            // let rx=map(map(allDrawingPts[i][j].x*0.5,0,1000,0,20),map(allDrawingPts[i][0].x*0.5,0,1000,0,20),map(allDrawingPts[i][allDrawingPts[i].length-1].x*0.5,0,1000,0,20), 0+rpos , 2+rpos);
+            // let ry=map(map(allDrawingPts[i][j].y*0.5,0,1000,0,20),map(allDrawingPts[i][0].y*0.5,0,1000,0,20),map(allDrawingPts[i][allDrawingPts[i].length-1].y*0.5,0,1000,0,20), 0+rpos , 2+rpos);
+            // let x=ry*sin(globalpos)*1
+            // let y = rx*cos(globalpos)*1;
+
             let r=map(map(allDrawingPts[i][j].y*0.5,0,1000,0,20),map(allDrawingPts[i][0].y*0.5,0,1000,0,20),map(allDrawingPts[i][allDrawingPts[i].length-1].y*0.5,0,1000,0,20), 0+rpos , 2+rpos);
-            let x=r*sin(globalpos)*1
-            let y = r*cos(globalpos)*1;
-            vertex(x,y);
+            let x=r*sin(allDrawingPts[i][j].x*0.001)*1
+            let y = r*cos(allDrawingPts[i][j].x*0.001)*1;
+
+            vertex(x*0.1,y*0.1);
             
-            if ((millis() % 100) == 0) {
+            
+            if ((millis() % 50) == 0) {
 
 
                 // k+=25;
                 //   noStroke();
-                  stroke(255,0,0);
-                  fill(255,0,0);
-                  ellipse(x,y,20,20);
-                  triOsc.freq((allDrawingPts[i][j].x+allDrawingPts[i][j].y)/2);
+                stroke(255,0,0);
+                fill(255,255,255);
+                ellipse(x*0.1,y*0.1,10,10);
+                triOsc.freq((allDrawingPts[i][j].x+allDrawingPts[i][j].y)/2);
                     // console.log(allDrawingPts[i][k].x,"!")
                 //   tracking(allDrawingPts[i][k].x, allDrawingPts[i][k].y/scaleCons+heightCons);
 
@@ -149,7 +156,7 @@ function drawAllLines(){
           
             // vertex(allDrawingPts[i][j].x*mPos,allDrawingPts[i][j].y*mPos)
             endShape();
-            globalpos+=0.01
+            globalpos+=0.01;
             rpos+=map(mouseX,0,width,0.1,0.5);
             
         }
