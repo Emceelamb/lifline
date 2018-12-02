@@ -96,7 +96,7 @@ function drawLine(){
                  
         }
         var pointToSave = {
-            x:mouseX+ln*1000,
+            x:mouseX+ln*850,
             y: mouseY
             
         }
