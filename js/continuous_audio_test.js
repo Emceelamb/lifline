@@ -60,6 +60,7 @@ function setup() {
 function draw() {
     background(30);
     drawAllLines();
+    drawAudioTracking();
 
 }
 
@@ -104,31 +105,14 @@ function drawAllLines(){
 
 
 
-    for(var i = 0; i<allDrawingPts.length; i++){
-        var path = allDrawingPts[i];
+    for(let i = 0; i<allDrawingPts.length; i++){
+        let path = allDrawingPts[i];
         beginShape();
-        for(var j = 0; j < path.length; j++){
-              let pan = map(mouseX, 100, width-100, 0, 950*panCons);
+        for(let j = 0; j < path.length; j++){
+                let pan = map(mouseX, 100, width-100, 0, 950*panCons);
+                vertex(path[j].x/scaleCons+(i*950/scaleCons)+pan, path[j].y/scaleCons+heightCons);
 
-              vertex(path[j].x/scaleCons+(i*950/scaleCons)+pan, path[j].y/scaleCons+heightCons);
-
-              if ((millis() % 100) == 0) {
-
-                  // k+=25;
-                  for (let k = 0; k < path.length; k++){
-                    noStroke();
-                    fill(255,0,0);
-                    triOsc.freq((path[k].x+path[k].y)/2);
-
-                    tracking(path[k].x/scaleCons+(i*950/scaleCons)+pan, path[k].y/scaleCons+heightCons);
-
-
-                  }
-                  env.play();
-              }
-              noFill();
-              stroke(255);
-            }
+        }
         endShape();
     }
 
@@ -145,6 +129,31 @@ function drawAllLines(){
     //     endShape();
 	// }
 }
+
+function drawAudioTracking(){
+
+    for(let i = 0; i<allDrawingPts.length; i++){
+      let path = allDrawingPts[i];
+        for (k = 0; k < path.length; k++){
+          if ((millis() % 100) == 0) {
+
+
+              let pan = map(mouseX, 100, width-100, 0, 950*panCons);
+
+              noStroke();
+              fill(255,0,0);
+
+              triOsc.freq((path[k].x+path[k].y)/2);
+              tracking(path[k].x/scaleCons+(i*950/scaleCons)+pan, path[k].y/scaleCons+heightCons);
+
+              env.play();
+
+          }
+
+      }
+    }
+}
+
 
 function mouseWheel(event) {
   //println(event.delta);
