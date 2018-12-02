@@ -16,8 +16,6 @@ var releaseTime = 0.5;
 
 var env, triOsc;
 
-let path;
-
 function setup() {
     createCanvas(windowWidth,windowHeight);
 
@@ -108,7 +106,7 @@ function drawAllLines(){
 
 
     for(let i = 0; i<allDrawingPts.length; i++){
-        path = allDrawingPts[i];
+        let path = allDrawingPts[i];
         beginShape();
         for(let j = 0; j < path.length; j++){
                 let pan = map(mouseX, 100, width-100, 0, 950*panCons);
@@ -135,11 +133,11 @@ function drawAllLines(){
 function drawAudioTracking(){
 
     for(let i = 0; i<allDrawingPts.length; i++){
-        let k;
-        if ((millis() % 100) == 0) {
-            k++;
+      let path = allDrawingPts[i];
+        for (k = 0; k < path.length; k++){
+          if ((millis() % 100) == 0) {
 
-          if(k < path.length){
+
               let pan = map(mouseX, 100, width-100, 0, 950*panCons);
 
               noStroke();
@@ -149,7 +147,9 @@ function drawAudioTracking(){
               tracking(path[k].x/scaleCons+(i*950/scaleCons)+pan, path[k].y/scaleCons+heightCons);
 
               env.play();
+
           }
+
       }
     }
 }
