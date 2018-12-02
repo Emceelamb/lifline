@@ -27,8 +27,8 @@ function setup() {
 	ref.on('value', gotData, errData);
 
     background(30);
-    // frameRate(1);
-    setTimeout(drawAllLines, 2000)
+    frameRate(60);
+    setTimeout(drawAllLines, 200)
 
 
 
@@ -39,6 +39,7 @@ function draw() {
 
     background(30);
     drawAllLines();
+    text(frameRate(),0,50);
 }
 
 let allDrawingPts = [];
@@ -68,7 +69,7 @@ function errData(err) {
 function drawAllLines(){
     beginShape(TRIANGLES);
     stroke(230);
-    strokeWeight(3);
+    strokeWeight(0.5);
     noFill();
     
     
@@ -109,11 +110,13 @@ function drawAllLines(){
         // stroke(random(240))
         stroke(i*30)
         for(var j = 0; j < allDrawingPts[i].length; j++){
+            allDrawingPts[i][j].y= allDrawingPts[i][j].y*map(mouseY,0,windowHeight,0.95,0.99);
+            // allDrawingPts[i][j].y*=0.98
             // let r=map(allDrawingPts[i][j].y, allDrawingPts[i][0].y,allDrawingPts[i][allDrawingPts[i].length-1].y, 1, 1);
-            let r=map(allDrawingPts[i][j].y, allDrawingPts[i][0].y, allDrawingPts[i][allDrawingPts[i].length-1].y, 0+rpos , 2+rpos);
+            let r=map(map(allDrawingPts[i][j].y*0.5,0,1000,0,20),map(allDrawingPts[i][0].y*0.5,0,1000,0,20),map(allDrawingPts[i][allDrawingPts[i].length-1].y*0.5,0,1000,0,20), 0+rpos , 2+rpos);
 
-            let x=r*cos(globalpos);
-            let y = r*sin(globalpos);
+            let x=r*sin(globalpos)*0.1
+            let y = r*cos(globalpos)*0.1;
             vertex(x,y);
             // vertex(allDrawingPts[i][j].x*mPos,allDrawingPts[i][j].y*mPos)
             endShape();
@@ -124,6 +127,10 @@ function drawAllLines(){
         
     }
     rpos=10
+    if(globalpos>100){
+        console.log(globalpos); 
+        globalpos=100;
+    }
 }
 let rpos=10
 let globalpos=0;
