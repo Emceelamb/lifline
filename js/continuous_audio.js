@@ -51,10 +51,9 @@ function setup() {
   env.setADSR(attackTime, decayTime, susPercent, releaseTime);
   env.setRange(attackLevel, releaseLevel);
 
-  triOsc = new p5.Oscillator('triangle');
+  triOsc = new p5.Oscillator('sine');
   triOsc.amp(env);
   triOsc.start();
-  triOsc.freq(220);
 
 }
 
@@ -69,6 +68,10 @@ let allDrawingPts = [];
 //play envelope
 function playEnv(){
   env.play();
+}
+
+function tracking(audioX,audioY){
+  ellipse(audioX, audioY, 50, 50);
 }
 
 function gotData(data) {
@@ -110,16 +113,21 @@ function drawAllLines(){
               vertex(path[j].x/scaleCons+(i*950/scaleCons)+pan, path[j].y/scaleCons+heightCons);
 
               if ((millis() % 100) == 0) {
-                  let k = 0;
-                  k+=100;
-                  if(k < path.length){
+
+                  // k+=25;
+                  for (let k = 0; k < path.length; k++){
+                    noStroke();
                     fill(255,0,0);
-                    ellipse(path[k].x/scaleCons+(i*950/scaleCons)+pan, path[k].y/scaleCons+heightCons, 50, 50);
                     triOsc.freq((path[k].x+path[k].y)/2);
-                    env.play();
-                }
+
+                    tracking(path[k].x/scaleCons+(i*950/scaleCons)+pan, path[k].y/scaleCons+heightCons);
+
+
+                  }
+                  env.play();
               }
               noFill();
+              stroke(255);
             }
         endShape();
     }
