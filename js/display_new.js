@@ -6,7 +6,6 @@ let ln;
 function setup() {
     createCanvas(windowWidth,windowHeight);
 
-    //create 3d camera
 
 	// Initialize Firebase
 	var config = {
@@ -28,7 +27,7 @@ function setup() {
 	ref.on('value', gotData, errData);
 
     background(30);
-
+    // frameRate(1);
     setTimeout(drawAllLines, 2000)
 
 
@@ -74,55 +73,57 @@ function drawAllLines(){
     
     
     
+    // for(var i = 0; i<allDrawingPts.length; i++){
+    //     var path = allDrawingPts[i];
+    //     push();
+    //     translate(0,windowHeight/2)
+    //     beginShape();
+    //     for(var j = 0; j < path.length; j++){
+    //         // for(var j = 0; j < path.length; j++){
+    //             // let r=map(path[j].x,0,1,height,0);
+    //             // let mPosY=map(mouseY,0,windowHeight,0,1);
+    //             // let mPosX=map(mouseX,0,windowWidth,0,1);
+    //             let mPos=map(mouseY,0,windowHeight,0,1);
+    //             // let r=map(path[j].x,0,path[j],0,100);
+    //             console.log(allDrawingPts[allDrawingPts.length-1][path.length-1])
+    //             // let x=r*cos(i);
+    //             // let y=r*sin(i);
+    //             // stroke(random(255),random(255),random(255))
+               
+    //             // vertex(x,y);
+                
+    //                 vertex(path[j].x*mPos,path[j].y*mPos);
+                
+    //             // vertex(cos(path[j].x), y);
+    //         // }
+    //         endShape();
+    //     }
+    //     pop();
+    // }
+                let mPos=map(mouseY,0,windowHeight,0,1);
+    
     for(var i = 0; i<allDrawingPts.length; i++){
-        var path = allDrawingPts[i];
         push();
         translate(windowWidth/2,windowHeight/2)
         beginShape();
-        for(var j = 0; j < path.length; j++){
-            for(var j = 0; j < path.length; j++){
-                let r=map(path[j].y,0,1,height,0);
-                let mPos=map(mouseY,0,windowHeight,0,1);
-                let x=r*cos(i);
-                let y=r*sin(i);
-                // vertex(cos(path[j].x)*r, r*sin(path[j].y));
-                vertex(cos(path[j].x), y);
-            }
+        // stroke(random(240))
+        stroke(i*30)
+        for(var j = 0; j < allDrawingPts[i].length; j++){
+            // let r=map(allDrawingPts[i][j].y, allDrawingPts[i][0].y,allDrawingPts[i][allDrawingPts[i].length-1].y, 1, 1);
+            let r=map(allDrawingPts[i][j].y, allDrawingPts[i][0].y, allDrawingPts[i][allDrawingPts[i].length-1].y, 0+rpos , 2+rpos);
+
+            let x=r*cos(globalpos);
+            let y = r*sin(globalpos);
+            vertex(x,y);
+            // vertex(allDrawingPts[i][j].x*mPos,allDrawingPts[i][j].y*mPos)
             endShape();
+            globalpos+=0.01
+            rpos+=0.1;
         }
         pop();
+        
     }
-
+    rpos=10
 }
-
-
-
-
-function cameraControl(){
-
-    if (keyIsDown(LEFT_ARROW)) {
-        camX-=50;
-        console.log(camX, camY, camZ);
-    } else if (keyIsDown(RIGHT_ARROW)) {
-        camX+=50;
-        console.log(camX, camY, camZ);
-
-    } else if (keyIsDown(DOWN_ARROW)){
-        camY+=50;
-        console.log(camX, camY, camZ);
-
-    } else if (keyIsDown(UP_ARROW)){
-        camY-=50;
-        console.log(camX, camY, camZ);
-
-    
-    } 
-}
-
-
-function keyPressed() {
- 
-    if(keyCode===ENTER){
-        camX=0,camY=0,camZ=0;
-    }
-}
+let rpos=10
+let globalpos=0;
