@@ -44,6 +44,7 @@ function draw() {
 }
 
 let allDrawingPts = [];
+let drawNo=0;
 function gotData(data) {
 	let drawings = data.val();
     let keys = Object.keys(drawings);
@@ -116,13 +117,13 @@ function drawAllLines(){
             // let r=map(allDrawingPts[i][j].y, allDrawingPts[i][0].y,allDrawingPts[i][allDrawingPts[i].length-1].y, 1, 1);
             let r=map(map(allDrawingPts[i][j].y*0.5,0,1000,0,20),map(allDrawingPts[i][0].y*0.5,0,1000,0,20),map(allDrawingPts[i][allDrawingPts[i].length-1].y*0.5,0,1000,0,20), 0+rpos , 2+rpos);
 
-            let x=r*sin(globalpos)*0.01
-            let y = r*cos(globalpos)*0.01;
+            let x=r*sin(globalpos)*1
+            let y = r*cos(globalpos)*1;
             vertex(x,y);
             // vertex(allDrawingPts[i][j].x*mPos,allDrawingPts[i][j].y*mPos)
             endShape();
             globalpos+=0.01
-            rpos+=0.5;
+            rpos+=map(mouseX,0,width,0.1,0.5);
         }
         pop();
         
@@ -130,7 +131,7 @@ function drawAllLines(){
     rpos=10
     if(globalpos>100){
         console.log(globalpos); 
-        // globalpos=100;
+        globalpos=100;
     }
 }
 let rpos=10

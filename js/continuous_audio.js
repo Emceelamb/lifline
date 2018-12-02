@@ -23,14 +23,22 @@ function setup() {
 
 
 	// Initialize Firebase
-  var config = {
-  		apiKey: "AIzaSyDWmmVDyrfNciNbBjyQpq4dryJqWpMAaNU",
-  		authDomain: "life-line-8b66d.firebaseapp.com",
-  		databaseURL: "https://life-line-8b66d.firebaseio.com",
-  		projectId: "life-line-8b66d",
-  		storageBucket: "life-line-8b66d.appspot.com",
-  		messagingSenderId: "13733885430"
-  };
+//   var config = {
+//   		apiKey: "AIzaSyDWmmVDyrfNciNbBjyQpq4dryJqWpMAaNU",
+//   		authDomain: "life-line-8b66d.firebaseapp.com",
+//   		databaseURL: "https://life-line-8b66d.firebaseio.com",
+//   		projectId: "life-line-8b66d",
+//   		storageBucket: "life-line-8b66d.appspot.com",
+//   		messagingSenderId: "13733885430"
+//   };
+var config = {
+    apiKey: "AIzaSyAsQomaBoDzBMXfNrQpf2qVcLdfSed08JY",
+    authDomain: "dcontinuousline.firebaseapp.com",
+    databaseURL: "https://dcontinuousline.firebaseio.com",
+    projectId: "dcontinuousline",
+    storageBucket: "dcontinuousline.appspot.com",
+    messagingSenderId: "954311962102"
+};
 
   firebase.initializeApp(config);
 	// console.log(firebase);

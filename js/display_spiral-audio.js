@@ -1,6 +1,21 @@
 let drawing = [];
 let database;
 
+let scaleAdd = 1;
+let scaleCons = 1;
+let panCons = -20;
+let heightCons = 0;
+
+var attackLevel = 1.0;
+var releaseLevel = 0;
+
+var attackTime = 0.001
+var decayTime = 0.2;
+var susPercent = 0.2;
+var releaseTime = 0.5;
+
+var env, triOsc;
+
 let ln;
 
 function setup() {
@@ -18,7 +33,6 @@ function setup() {
 	};
 
 	firebase.initializeApp(config);
-	// console.log(firebase);
 
 	//database object
 	database = firebase.database();
@@ -30,6 +44,16 @@ function setup() {
     frameRate(60);
     setTimeout(drawAllLines, 200)
 
+
+
+  // envelope code
+  env = new p5.Env();
+  env.setADSR(attackTime, decayTime, susPercent, releaseTime);
+  env.setRange(attackLevel, releaseLevel);
+
+  triOsc = new p5.Oscillator('sine');
+  triOsc.amp(env);
+  triOsc.start();
 
 
 
@@ -44,6 +68,19 @@ function draw() {
 }
 
 let allDrawingPts = [];
+let drawNo=0;
+
+
+//play envelope
+function playEnv(){
+    env.play();
+  }
+  
+  function tracking(audioX,audioY){
+    ellipse(audioX, audioY, 50, 50);
+  }
+  
+  
 function gotData(data) {
 	let drawings = data.val();
     let keys = Object.keys(drawings);
@@ -74,35 +111,7 @@ function drawAllLines(){
     noFill();
     
     
-    
-    // for(var i = 0; i<allDrawingPts.length; i++){
-    //     var path = allDrawingPts[i];
-    //     push();
-    //     translate(0,windowHeight/2)
-    //     beginShape();
-    //     for(var j = 0; j < path.length; j++){
-    //         // for(var j = 0; j < path.length; j++){
-    //             // let r=map(path[j].x,0,1,height,0);
-    //             // let mPosY=map(mouseY,0,windowHeight,0,1);
-    //             // let mPosX=map(mouseX,0,windowWidth,0,1);
-    //             let mPos=map(mouseY,0,windowHeight,0,1);
-    //             // let r=map(path[j].x,0,path[j],0,100);
-    //             console.log(allDrawingPts[allDrawingPts.length-1][path.length-1])
-    //             // let x=r*cos(i);
-    //             // let y=r*sin(i);
-    //             // stroke(random(255),random(255),random(255))
-               
-    //             // vertex(x,y);
-                
-    //                 vertex(path[j].x*mPos,path[j].y*mPos);
-                
-    //             // vertex(cos(path[j].x), y);
-    //         // }
-    //         endShape();
-    //     }
-    //     pop();
-    // }
-                let mPos=map(mouseY,0,windowHeight,0,1);
+    let mPos=map(mouseY,0,windowHeight,0,1);
     
     for(var i = 0; i<allDrawingPts.length; i++){
         push();
@@ -115,14 +124,34 @@ function drawAllLines(){
             // allDrawingPts[i][j].y*=0.98
             // let r=map(allDrawingPts[i][j].y, allDrawingPts[i][0].y,allDrawingPts[i][allDrawingPts[i].length-1].y, 1, 1);
             let r=map(map(allDrawingPts[i][j].y*0.5,0,1000,0,20),map(allDrawingPts[i][0].y*0.5,0,1000,0,20),map(allDrawingPts[i][allDrawingPts[i].length-1].y*0.5,0,1000,0,20), 0+rpos , 2+rpos);
-
-            let x=r*sin(globalpos)*0.01
-            let y = r*cos(globalpos)*0.01;
+            let x=r*sin(globalpos)*1
+            let y = r*cos(globalpos)*1;
             vertex(x,y);
+            
+            if ((millis() % 100) == 0) {
+
+
+                // k+=25;
+                //   noStroke();
+                  stroke(255,0,0);
+                  fill(255,0,0);
+                  ellipse(x,y,20,20);
+                  triOsc.freq((allDrawingPts[i][j].x+allDrawingPts[i][j].y)/2);
+                    // console.log(allDrawingPts[i][k].x,"!")
+                //   tracking(allDrawingPts[i][k].x, allDrawingPts[i][k].y/scaleCons+heightCons);
+
+
+                env.play();
+                
+            }
+            noFill();
+            stroke(255);
+          
             // vertex(allDrawingPts[i][j].x*mPos,allDrawingPts[i][j].y*mPos)
             endShape();
             globalpos+=0.01
-            rpos+=0.5;
+            rpos+=map(mouseX,0,width,0.1,0.5);
+            
         }
         pop();
         
@@ -130,8 +159,10 @@ function drawAllLines(){
     rpos=10
     if(globalpos>100){
         console.log(globalpos); 
-        // globalpos=100;
+        globalpos=100;
     }
 }
 let rpos=10
 let globalpos=0;
+
+
