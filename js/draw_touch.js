@@ -96,13 +96,14 @@ function drawLine(){
                  
         }
         var pointToSave = {
-            x:mouseX+ln*850,
+            x:mouseX+ln*800,
             y: mouseY
             
         }
         // add points to drawing
         drawing.push(point);    
         drawingToSave.push(pointToSave);   
+     
     }
     beginShape();
     stroke(230);
@@ -116,7 +117,7 @@ function drawLine(){
     pop();
 }
 
-function mouseReleased(){
+function touchEnded(){
     // var fs = fullscreen();
     fullscreen(true);
     ellipse(mouseX, mouseY, 30,30)

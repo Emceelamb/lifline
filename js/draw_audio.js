@@ -55,8 +55,9 @@ function setup() {
 }
 
 function draw() {
+    checkComplete();
 
-  console.log(micX, micY);
+//   console.log(micX, micY);
 
 
   if(mouseIsPressed&&micX > 85 && micX < 115 && micY < height/2 + 15 && micY > height/2 - 15){
@@ -82,8 +83,11 @@ function draw() {
     fill(255);
     noStroke();
 
-    if (x < 835) {
-      if (vol != null && vol > 0.1) {
+    if (x <= 835) {
+      if(x==834){
+          drawing.push([835,height/2])
+      }  
+      if (vol != null && vol > 0.01) {
       	x += 5;
       } else {
         x = x;
@@ -102,7 +106,7 @@ function draw() {
 
     micX = x;
     micY = micBass-micTreble+(height/2);
-
+    checkComplete();    
     drawLine();
 }
 
@@ -117,7 +121,8 @@ function saveDrawing() {
 
 	function dataSent() {
 		console.log(status);
-	}
+    }
+    window.location.assign("draw_touch.html");
 }
 
 function gotData(data) {
@@ -151,6 +156,7 @@ function drawLine(){
         }
         // add points to drawing
         drawing.push(point);
+      
         drawingToSave.push(pointToSave);
     }
     beginShape();
@@ -180,6 +186,19 @@ function mouseReleased(){
     }
 }
 
+
+function checkComplete(){
+    // var fs = fullscreen();
+    if(micX > width-315){
+        console.log("connected")
+        drawing.push({"x":900,"y":height/2})
+        resetDrawing();
+        console.log("saved");
+        
+    }
+}
+
+
 var continuousLine= {"line": drawing};
 
 
@@ -193,13 +212,16 @@ function drawEndpoints(){
 
 
 function resetDrawing(){
-	saveDrawing();
-	isDrawing=false;
-	console.log("connected homie");
-    drawing=[];
-    drawingToSave=[];
-	background(30);
-    drawEndpoints();
+
+        saveDrawing();
+        // isDrawing=false;
+        console.log("connected homie");
+        drawing=[];
+        drawingToSave=[];
+        background(30);
+        drawEndpoints();
+        micX=0;
+
 }
 
 // function mousePressed() {
