@@ -20,30 +20,30 @@ let ln;
 
 let serial;
 
-let rad =0; rag=0; col=0;
+let rad = 0; rag = 0; col = 0;
 
 function setup() {
-    createCanvas(windowWidth,windowHeight);
+    createCanvas(windowWidth, windowHeight);
 
     // DATA BASE
 
-	// Initialize Firebase
-	var config = {
+    // Initialize Firebase
+    var config = {
         apiKey: "AIzaSyAsQomaBoDzBMXfNrQpf2qVcLdfSed08JY",
         authDomain: "dcontinuousline.firebaseapp.com",
         databaseURL: "https://dcontinuousline.firebaseio.com",
         projectId: "dcontinuousline",
         storageBucket: "dcontinuousline.appspot.com",
         messagingSenderId: "954311962102"
-	};
+    };
 
-	firebase.initializeApp(config);
+    firebase.initializeApp(config);
 
-	//database object
-	database = firebase.database();
+    //database object
+    database = firebase.database();
 
-	let ref = database.ref('drawings');
-	ref.on('value', gotData, errData);
+    let ref = database.ref('drawings');
+    ref.on('value', gotData, errData);
 
     background(30);
     frameRate(60);
@@ -73,117 +73,117 @@ function draw() {
 
     background(30);
     drawAllLines();
-    text(frameRate(),0,50);
-    text(allDrawingPts.length,0,100);
+    text(frameRate(), 0, 50);
+    text(allDrawingPts.length, 0, 100);
 
 }
 
 let allDrawingPts = [];
-let drawNo=0;
+let drawNo = 0;
 
 
 //play envelope
-function playEnv(){
+function playEnv() {
     env.play();
 }
 
-function tracking(audioX,audioY){
+function tracking(audioX, audioY) {
     ellipse(audioX, audioY, 50, 50);
 }
 
 function gotData(data) {
-	let drawings = data.val();
+    let drawings = data.val();
     let keys = Object.keys(drawings);
-    ln=keys.length;
-    allDrawingPts=[];
-	for (let i=0; i<keys.length; i++) {
-		let key = keys[i];
+    ln = keys.length;
+    allDrawingPts = [];
+    for (let i = 0; i < keys.length; i++) {
+        let key = keys[i];
         // console.log(key);
-        var drawingCountRef = firebase.database().ref('drawings/' + key );
-        drawingCountRef.on('value', function(snapshot) {
-        // console.log(snapshot.val());
-        allDrawingPts.push(snapshot.val());
+        var drawingCountRef = firebase.database().ref('drawings/' + key);
+        drawingCountRef.on('value', function (snapshot) {
+            // console.log(snapshot.val());
+            allDrawingPts.push(snapshot.val());
         });
 
-	}
+    }
 }
 
-let r=50;
+let r = 50;
 
 function errData(err) {
-	console.log(err);
+    console.log(err);
 }
 
-function drawAllLines(){
+function drawAllLines() {
     beginShape(TRIANGLES);
     // stroke(230);
     strokeWeight(0.5);
     noFill();
-    
-    
-    let mPos=map(rag,1023,0,0,1);
-    
-    for(var i = 0; i<allDrawingPts.length; i++){
+
+
+    let mPos = map(rag, 1023, 0, 0, 1);
+
+    for (var i = 0; i < allDrawingPts.length; i++) {
         push();
-        translate(windowWidth/2,windowHeight/2)
+        translate(windowWidth / 2, windowHeight / 2)
         beginShape();
         // stroke(random(240))
-        stroke(230);
-        if(col===1){
-            stroke(random(240),random(240),random(240));
+        stroke(230*i/30);
+        if (col === 1) {
+            stroke(random(240), random(240), random(240));
         }
-        for(var j = 0; j < allDrawingPts[i].length; j++){
+        for (var j = 0; j < allDrawingPts[i].length; j++) {
             // stroke(i*30)
-            allDrawingPts[i][j].y= allDrawingPts[i][j].y*map(rag,1023,0,0.95,0.99);
+            allDrawingPts[i][j].y = allDrawingPts[i][j].y * map(rag, 1023, 0, 0.95, 0.99);
             // allDrawingPts[i][j].y*=0.98
             // let r=map(allDrawingPts[i][j].y, allDrawingPts[i][0].y,allDrawingPts[i][allDrawingPts[i].length-1].y, 1, 1);
             // let rx=map(map(allDrawingPts[i][j].x*0.5,0,1000,0,20),map(allDrawingPts[i][0].x*0.5,0,1000,0,20),map(allDrawingPts[i][allDrawingPts[i].length-1].x*0.5,0,1000,0,20), 0+rpos , 2+rpos);
             // let ry=map(map(allDrawingPts[i][j].y*0.5,0,1000,0,20),map(allDrawingPts[i][0].y*0.5,0,1000,0,20),map(allDrawingPts[i][allDrawingPts[i].length-1].y*0.5,0,1000,0,20), 0+rpos , 2+rpos);
             // let x=ry*sin(globalpos)*1
             // let y = rx*cos(globalpos)*1;
-
-            let r=map(map(allDrawingPts[i][j].y*0.5,0,1000,0,20),map(allDrawingPts[i][0].y*0.5,0,1000,0,20),map(allDrawingPts[i][allDrawingPts[i].length-1].y*0.5,0,1000,0,20), 0+rpos , 2+rpos);
-            let x=r*sin(allDrawingPts[i][j].x*0.001)*1
-            let y = r*cos(allDrawingPts[i][j].x*0.001)*1;
-
-            vertex(x*0.1,y*0.1);
+            let r = map(map(allDrawingPts[i][j].y * 0.5, 0, 1000, 0, 20), map(allDrawingPts[i][0].y * 0.5, 0, 1000, 0, 20), map(allDrawingPts[i][allDrawingPts[i].length - 1].y * 0.5, 0, 1000, 0, 20), 0 + rpos, 2 + rpos);
+            let x = r * sin(allDrawingPts[i][j].x * 0.001) * 1
+            let y = r * cos(allDrawingPts[i][j].x * 0.001) * 1;
             
-            
+            ellipse(allDrawingPts[[i].length-1].x, allDrawingPts[i][j].length-1,30,30 )
+            vertex(x * 0.1, y * 0.1);
+
+
             if ((millis() % 50) == 0) {
 
 
                 // k+=25;
-                  noStroke();
-                fill(255,255,255);
-                ellipse(x*0.1,y*0.1,10,10);
-                triOsc.freq((allDrawingPts[i][j].x+allDrawingPts[i][j].y)/2);
-                    // console.log(allDrawingPts[i][k].x,"!")
+                // noStroke();
+                fill(255, 255, 255);
+                ellipse(x * 0.1, y * 0.1, 10, 10);
+                triOsc.freq((allDrawingPts[i][j].x + allDrawingPts[i][j].y) / 2);
+                // console.log(allDrawingPts[i][k].x,"!")
                 //   tracking(allDrawingPts[i][k].x, allDrawingPts[i][k].y/scaleCons+heightCons);
 
 
                 env.play();
-                
+
             }
             noFill();
             // stroke(255);
-        
+
             // vertex(allDrawingPts[i][j].x*mPos,allDrawingPts[i][j].y*mPos)
             endShape();
-            globalpos+=0.01;
-            rpos+=map(rad,1023,0,0.1,0.5);
-            
+            globalpos += 0.01;
+            rpos += map(rad, 1023, 0, 0.1, 0.5);
+
         }
         pop();
-        
+
     }
-    rpos=10
-    if(globalpos>100){
+    rpos = 10
+    if (globalpos > 100) {
         // console.log(globalpos); 
-        globalpos=100;
+        globalpos = 100;
     }
 }
-let rpos=10
-let globalpos=0;
+let rpos = 10
+let globalpos = 0;
 
 
 // SERIAL
@@ -201,7 +201,7 @@ function serialEvent() {
     // this is called when data is recieved, data will then live in fromSerial	
     var stringFromSerial = serial.readLine();
     // console.log(stringFromSerial);
-        // reads everything till the new line charecter
+    // reads everything till the new line charecter
     if (stringFromSerial.length > 0) {             // is the something there ?
         var trimmedString = trim(stringFromSerial);  // get rid of all white space
         var myArray = split(trimmedString, ",")      // splits the string into an array on commas

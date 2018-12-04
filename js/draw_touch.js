@@ -92,8 +92,7 @@ function drawLine(){
     if(isDrawing===true){
         var point = {
             x: mouseX,
-            y: mouseY
-                 
+            y: mouseY             
         }
         var pointToSave = {
             x:mouseX+ln*800,
@@ -103,7 +102,6 @@ function drawLine(){
         // add points to drawing
         drawing.push(point);    
         drawingToSave.push(pointToSave);   
-     
     }
     beginShape();
     stroke(230);
