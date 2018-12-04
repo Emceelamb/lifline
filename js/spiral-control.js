@@ -20,6 +20,8 @@ let ln;
 
 let serial;
 
+let rad =0; rag=0; col=0;
+
 function setup() {
     createCanvas(windowWidth,windowHeight);
 
@@ -67,13 +69,13 @@ function setup() {
     serial.open("/dev/ttyACM0"); // open a port
 
 }
-
 function draw() {
 
     background(30);
     drawAllLines();
     text(frameRate(),0,50);
     text(allDrawingPts.length,0,100);
+
 }
 
 let allDrawingPts = [];
@@ -83,13 +85,12 @@ let drawNo=0;
 //play envelope
 function playEnv(){
     env.play();
-  }
-  
-  function tracking(audioX,audioY){
+}
+
+function tracking(audioX,audioY){
     ellipse(audioX, audioY, 50, 50);
-  }
-  
-  
+}
+
 function gotData(data) {
 	let drawings = data.val();
     let keys = Object.keys(drawings);
@@ -115,21 +116,25 @@ function errData(err) {
 
 function drawAllLines(){
     beginShape(TRIANGLES);
-    stroke(230);
+    // stroke(230);
     strokeWeight(0.5);
     noFill();
     
     
-    let mPos=map(mouseY,0,windowHeight,0,1);
+    let mPos=map(rag,1023,0,0,1);
     
     for(var i = 0; i<allDrawingPts.length; i++){
         push();
         translate(windowWidth/2,windowHeight/2)
         beginShape();
         // stroke(random(240))
+        stroke(230);
+        if(col===1){
+            stroke(random(240),random(240),random(240));
+        }
         for(var j = 0; j < allDrawingPts[i].length; j++){
-            stroke(i*30)
-            allDrawingPts[i][j].y= allDrawingPts[i][j].y*map(mouseY,0,windowHeight,0.95,0.99);
+            // stroke(i*30)
+            allDrawingPts[i][j].y= allDrawingPts[i][j].y*map(rag,1023,0,0.95,0.99);
             // allDrawingPts[i][j].y*=0.98
             // let r=map(allDrawingPts[i][j].y, allDrawingPts[i][0].y,allDrawingPts[i][allDrawingPts[i].length-1].y, 1, 1);
             // let rx=map(map(allDrawingPts[i][j].x*0.5,0,1000,0,20),map(allDrawingPts[i][0].x*0.5,0,1000,0,20),map(allDrawingPts[i][allDrawingPts[i].length-1].x*0.5,0,1000,0,20), 0+rpos , 2+rpos);
@@ -148,8 +153,7 @@ function drawAllLines(){
 
 
                 // k+=25;
-                //   noStroke();
-                stroke(255,0,0);
+                  noStroke();
                 fill(255,255,255);
                 ellipse(x*0.1,y*0.1,10,10);
                 triOsc.freq((allDrawingPts[i][j].x+allDrawingPts[i][j].y)/2);
@@ -161,12 +165,12 @@ function drawAllLines(){
                 
             }
             noFill();
-            stroke(255);
-          
+            // stroke(255);
+        
             // vertex(allDrawingPts[i][j].x*mPos,allDrawingPts[i][j].y*mPos)
             endShape();
             globalpos+=0.01;
-            rpos+=map(mouseX,0,width,0.1,0.5);
+            rpos+=map(rad,1023,0,0.1,0.5);
             
         }
         pop();
@@ -174,7 +178,7 @@ function drawAllLines(){
     }
     rpos=10
     if(globalpos>100){
-        console.log(globalpos); 
+        // console.log(globalpos); 
         globalpos=100;
     }
 }
@@ -195,11 +199,14 @@ function printList(portList) {
 
 function serialEvent() {
     // this is called when data is recieved, data will then live in fromSerial	
-    var stringFromSerial = serial.readLine();    // reads everything till the new line charecter
+    var stringFromSerial = serial.readLine();
+    // console.log(stringFromSerial);
+        // reads everything till the new line charecter
     if (stringFromSerial.length > 0) {             // is the something there ?
         var trimmedString = trim(stringFromSerial);  // get rid of all white space
         var myArray = split(trimmedString, ",")      // splits the string into an array on commas
-        xPos = Number(myArray[0]);             // get the first item in the array and turn into integer
-        yPos = Number(myArray[1]); 					 // get the second item in the array and turn into integer
+        rad = Number(myArray[0]);             // get the first item in the array and turn into integer
+        rag = Number(myArray[1]); 					 // get the second item in the array and turn into integer
+        col = Number(myArray[2]);
     }
 }
