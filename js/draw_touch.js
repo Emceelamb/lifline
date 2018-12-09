@@ -5,6 +5,9 @@ let drawing = [];
 let database;
 let drawingToSave = [];
 let ln=0;
+
+let timer = 0;
+
 function setup() {
     createCanvas(1200, 900);
     background(30);
@@ -17,7 +20,7 @@ function setup() {
         storageBucket: "dcontinuousline.appspot.com",
         messagingSenderId: "954311962102"
     };
-    
+
 
 	firebase.initializeApp(config);
 	console.log(firebase);
@@ -28,16 +31,18 @@ function setup() {
 	let ref = database.ref('drawings');
 	ref.on('value', gotData, errData);
 
-    
+
     drawEndpoints();
 
 }
 
 function draw() {
-    console.log(mouseX, mouseY);
+
+    console.log(mouseX, mouseY, timer);
+
     fill(255,0,0);
 
-    if(mouseIsPressed&&mouseX > 85 && mouseX < 115 && mouseY < height/2 + 15 && mouseY > height/2 - 15){
+    if(mouseIsPressed&&mouseX > 85 && mouseX < 115 && mouseY < height/2 + 15 && mouseY > height/2 - 15 ){
         console.log("mouse is in start")
         isDrawing = true;
     }
@@ -46,15 +51,18 @@ function draw() {
         isDrawing = false;
     }
 
-    
+
 
 
     // line only draws if begun
-	drawLine();
+
+    drawLine();
+
+
 	if(isConnected){
         isConnected=!isConnected;
         resetDrawing();
-        
+
 	}
 
 }
@@ -89,24 +97,32 @@ function errData(err) {
 
 function drawLine(){
     // check if line begun
+
     if(isDrawing===true){
         var point = {
             x: mouseX,
-            y: mouseY             
+            y: mouseY
         }
         var pointToSave = {
-            x:mouseX+ln*800,
+            x: mouseX+ln*800,
             y: mouseY
-            
+
         }
         // add points to drawing
-        drawing.push(point);    
-        drawingToSave.push(pointToSave);   
+        drawing.push(point);
+
+        if (millis() > timer) {
+          drawingToSave.push(pointToSave);
+          timer = millis() + 100;
+        }
+
     }
+
     beginShape();
     stroke(230);
     strokeWeight(3);
     noFill();
+
     push();
     for(var i=0; i<drawing.length; i++){
         vertex(drawing[i].x,drawing[i].y);
@@ -134,7 +150,7 @@ var continuousLine= {"line": drawing};
 
 
 function drawEndpoints(){
-    
+
     fill(233);
     noStroke();
     ellipse(100,height/2, 30,30);
