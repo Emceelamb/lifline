@@ -15,6 +15,7 @@ var susPercent = 0.2;
 var releaseTime = 0.5;
 
 var env, triOsc;
+let timer = 0;
 
 let ln;
 
@@ -49,7 +50,7 @@ function setup() {
     frameRate(60);
     setTimeout(drawAllLines, 200)
 
-    // AUDIO 
+    // AUDIO
 
     // envelope code
     env = new p5.Env();
@@ -62,9 +63,9 @@ function setup() {
 
     // SERIAL
 
-    serial = new p5.SerialPort(); // make a new instance of  serialport librar	
+    serial = new p5.SerialPort(); // make a new instance of  serialport librar
     serial.on('list', printList); // callback function for serialport list event
-    serial.on('data', serialEvent); // callback for new data coming in	
+    serial.on('data', serialEvent); // callback for new data coming in
     serial.list(); // list the serial ports
     serial.open("/dev/ttyACM0"); // open a port
 
@@ -144,24 +145,27 @@ function drawAllLines() {
             let r = map(map(allDrawingPts[i][j].y * 0.5, 0, 1000, 0, 20), map(allDrawingPts[i][0].y * 0.5, 0, 1000, 0, 20), map(allDrawingPts[i][allDrawingPts[i].length - 1].y * 0.5, 0, 1000, 0, 20), 0 + rpos, 2 + rpos);
             let x = r * sin(allDrawingPts[i][j].x * 0.001) * 1
             let y = r * cos(allDrawingPts[i][j].x * 0.001) * 1;
-            
+
             ellipse(allDrawingPts[[i].length-1].x, allDrawingPts[i][j].length-1,30,30 )
             vertex(x * 0.1, y * 0.1);
 
 
-            if ((millis() % 50) == 0) {
+            if (millis() > timer) {
 
 
                 // k+=25;
                 // noStroke();
                 fill(255, 255, 255);
                 ellipse(x * 0.1, y * 0.1, 10, 10);
-                triOsc.freq((allDrawingPts[i][j].x + allDrawingPts[i][j].y) / 2);
+                console.log(sqrt(allDrawingPts[i][j].x * allDrawingPts[i][j].y)*0.5);
+                triOsc.freq(map(sqrt(allDrawingPts[i][j].x * allDrawingPts[i][j].y), 500, 1500, 0, 200));
                 // console.log(allDrawingPts[i][k].x,"!")
                 //   tracking(allDrawingPts[i][k].x, allDrawingPts[i][k].y/scaleCons+heightCons);
 
 
                 env.play();
+
+                timer = millis() + 1000;
 
             }
             noFill();
@@ -178,7 +182,7 @@ function drawAllLines() {
     }
     rpos = 10
     if (globalpos > 100) {
-        // console.log(globalpos); 
+        // console.log(globalpos);
         globalpos = 100;
     }
 }
@@ -198,7 +202,7 @@ function printList(portList) {
 }
 
 function serialEvent() {
-    // this is called when data is recieved, data will then live in fromSerial	
+    // this is called when data is recieved, data will then live in fromSerial
     var stringFromSerial = serial.readLine();
     // console.log(stringFromSerial);
     // reads everything till the new line charecter
