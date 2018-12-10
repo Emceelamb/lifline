@@ -1,10 +1,12 @@
 let isDrawing = false;
 let isConnected = false;
 
-let drawing = [];
+
 let database;
+let drawing = [];
 let drawingToSave = [];
 let audioArray = [];
+let audioToSave = [];
 let ln=0;
 
 let timer = 0;
@@ -40,8 +42,8 @@ function setup() {
 	//database object
 	database = firebase.database();
 
-	let ref = database.ref('drawings');
-	ref.on('value', gotData, errData);
+  	let drawingRef = database.ref('drawings');
+  	drawingRef.on('value', gotData, errData);
 
     //envelope code
     env = new p5.Env();
@@ -89,9 +91,13 @@ function draw() {
 function saveDrawing() {
 
 	//reference drawings location
-	let ref = database.ref('drawings');
-	let result = ref.push(drawingToSave, dataSent);
-	console.log(result.key);
+	let drawingRef = database.ref('drawings');
+	let drawingResult = drawingRef.push(drawingToSave, dataSent);
+	console.log("drawing - ", drawingResult.key);
+
+  let audioRef = database.ref('audio');
+  let audioResult = audioRef.push(audioToSave, dataSent);
+  console.log("audio - ", audioResult.key);
 
 	function dataSent() {
 		console.log(status);
@@ -132,6 +138,10 @@ function drawLine(){
             x: mouseX,
             y: mouseY
         }
+        var audioPointToSave = {
+            x: mouseX+ln*800,
+            y: mouseY
+        }
         // add points to drawing
         drawing.push(point);
 
@@ -142,6 +152,7 @@ function drawLine(){
 
         if (millis() > audioTimer) {
           audioArray.push(audioPoint);
+          audioToSave.push(audioPointToSave);
           audioTimer = millis() + 1000;
 
           env.play();
@@ -188,7 +199,9 @@ function touchEnded(){
         isDrawing=false;
         console.log("failed to connect homie");
         drawing=[];
+        drawingToSave=[];
         audioArray=[];
+        audioToSave=[];
         background(30);
         drawEndpoints();
     }
@@ -230,6 +243,8 @@ function resetDrawing(){
 	console.log("connected homie");
     drawing=[];
     drawingToSave=[];
+    audioArray=[];
+    audioToSave=[];
 	background(30);
     // drawEndpoints();
 }
@@ -242,13 +257,13 @@ function success(){
     stroke(success_color);
     strokeWeight(3);
     // noFill();
-    
+
     push();
     for(var i=0; i<drawing.length; i++){
         noFill();
         vertex(drawing[i].x,drawing[i].y);
     }
-    
+
     for(var i=0; i<audioArray.length; i++){
         let pointTone = sqrt(audioArray[i].y * audioArray[i].y);
         // fill(success_color)
@@ -259,14 +274,14 @@ function success(){
         triOsc.freq(pointTone*.5);
     }
 
-  
+
     endShape();
     pop();
     // drawEndpoints();
     success_color-=2;
     if (success_color<30){
 
-        success_color=230;   
+        success_color=230;
         resetDrawing();
         isConnected=!isConnected;
         audioArray=[];
