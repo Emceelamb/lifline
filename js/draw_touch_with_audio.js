@@ -59,7 +59,7 @@ function setup() {
 
 function draw() {
 
-    console.log(mouseX, mouseY, timer);
+    // console.log(mouseX, mouseY, timer);
 
     fill(255,0,0);
 
@@ -80,10 +80,8 @@ function draw() {
     drawLine();
 
 
-	if(isConnected){
-        isConnected=!isConnected;
-        resetDrawing();
-
+	if(isConnected){        // resetDrawing();
+        success();
 	}
 
 }
@@ -196,7 +194,7 @@ var continuousLine= {"line": drawing};
 
 
 function drawEndpoints(){
-
+    // background(30);
     fill(233);
     noStroke();
     ellipse(100,height/2, 30,30);
@@ -214,6 +212,45 @@ function resetDrawing(){
     drawEndpoints();
 }
 
+let success_color = 230;
+
+function success(){
+    background(30);
+    beginShape();
+    stroke(success_color);
+    strokeWeight(3);
+    // noFill();
+    
+    push();
+    for(var i=0; i<drawing.length; i++){
+        vertex(drawing[i].x,drawing[i].y);
+    }
+    
+    for(var i=0; i<audioArray.length; i++){
+        let pointTone = sqrt(audioArray[i].y * audioArray[i].y);
+        // fill(success_color)
+
+        stroke(success_color);
+        // fill(success_color);
+        // ellipse(audioArray[i].x, audioArray[i].y, 10, 10);
+        triOsc.freq(pointTone*.5);
+    }
+
+  
+    endShape();
+    pop();
+    drawEndpoints();
+    success_color-=2;
+    if (success_color<30){
+
+        success_color=230;   
+        resetDrawing();
+        isConnected=!isConnected;
+        audioArray=[];
+        background(30);
+        drawEndpoints();
+    }
+}
 // function mousePressed() {
 //     if (mouseX > 0 && mouseX < 100 && mouseY > 0 && mouseY < 100) {
 //       var fs = fullscreen();
