@@ -153,7 +153,9 @@ function drawAllLines(){
             }
             noFill();
             stroke(255);
-          
+            if(i===allDrawingPts.length-1){
+                stroke(255,0,0);
+            }
             // vertex(allDrawingPts[i][j].x*mPos,allDrawingPts[i][j].y*mPos)
             endShape();
             globalpos+=0.01;

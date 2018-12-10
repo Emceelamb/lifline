@@ -116,8 +116,10 @@ function errData(err) {
 
 function drawLine(){
     // check if line begun
+    background(30);
 
     if(isDrawing===true){
+
         var point = {
             x: mouseX,
             y: mouseY
@@ -172,6 +174,8 @@ function drawLine(){
 
     endShape();
     pop();
+    noFill();
+    drawEndpoints();
 }
 
 function touchEnded(){
@@ -197,8 +201,26 @@ function drawEndpoints(){
     // background(30);
     fill(233);
     noStroke();
-    ellipse(100,height/2, 30,30);
-    ellipse(width-300,height/2, 30, 30);
+
+    if(isDrawing){
+
+        push();
+        // stroke(150);
+        fill(150);
+        // ellipse(100,height/2, 15,15);
+        fill(233);
+        ellipse(width-300,height/2, 30, 30);
+        pop();
+    } else {
+        push();
+        fill(233);
+        ellipse(100,height/2, 30,30);
+        stroke(150);
+
+        fill(150);
+        ellipse(width-300,height/2, 15, 15);
+        pop();
+    }
 }
 
 
@@ -209,7 +231,7 @@ function resetDrawing(){
     drawing=[];
     drawingToSave=[];
 	background(30);
-    drawEndpoints();
+    // drawEndpoints();
 }
 
 let success_color = 230;
@@ -223,6 +245,7 @@ function success(){
     
     push();
     for(var i=0; i<drawing.length; i++){
+        noFill();
         vertex(drawing[i].x,drawing[i].y);
     }
     
@@ -239,7 +262,7 @@ function success(){
   
     endShape();
     pop();
-    drawEndpoints();
+    // drawEndpoints();
     success_color-=2;
     if (success_color<30){
 
