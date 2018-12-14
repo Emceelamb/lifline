@@ -74,7 +74,7 @@ function setup() {
   sineOsc.amp(env);
   sineOsc.start();
 
-  setInterval(playPointAudio, 100);
+  setInterval(playPointAudio, 1000);
 
 }
 
