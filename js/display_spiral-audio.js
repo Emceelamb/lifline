@@ -21,7 +21,7 @@ var decayTime = 0.2;
 var susPercent = 0.2;
 var releaseTime = 0.5;
 
-var env, triOsc;
+var env, sineOsc;
 
 let ln;
 let lnA;
@@ -70,9 +70,9 @@ function setup() {
   env.setADSR(attackTime, decayTime, susPercent, releaseTime);
   env.setRange(attackLevel, releaseLevel);
 
-  triOsc = new p5.Oscillator('sine');
-  triOsc.amp(env);
-  triOsc.start();
+  sineOsc = new p5.Oscillator('sine');
+  sineOsc.amp(env);
+  sineOsc.start();
 
   setInterval(playPointAudio, 1000);
 
@@ -231,7 +231,7 @@ function playPointAudio() {
 
     console.log(midiValue);
 
-    triOsc.freq(freqValue + pointTone);
+    sineOsc.freq(freqValue + pointTone);
 
     env.play();
 
