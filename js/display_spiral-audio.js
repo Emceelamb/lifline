@@ -249,7 +249,7 @@ function playPointAudio() {
     // ellipse(allAudioPtsToPlay[currentNotes][noteToPlay].x, allAudioPtsToPlay[currentNotes][noteToPlay].y,50,50);
 
 
-    if (currentNotes >= allAudioPtsToPlay.length - 1) {
+    if (currentNotes == allAudioPtsToPlay.length - 1 && noteToPlay == allAudioPtsToPlay[currentNotes].length - 1) {
       currentNotes = 0;
     }
 
