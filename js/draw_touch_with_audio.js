@@ -171,7 +171,7 @@ function drawLine(){
     }
 
     for(var i=0; i<audioArray.length; i++){
-        let pointTone = sqrt(audioArray[i].y * audioArray[i].y);
+        let pointTone = sqrt(audioToSave[i].x * audioToSave[i].y);
 
         stroke(pointTone);
         fill(pointTone);
@@ -254,7 +254,7 @@ let success_color = 230;
 function success(){
     background(30);
     beginShape();
-    stroke(success_color);
+    stroke(success_color,0,0);
     strokeWeight(3);
     // noFill();
 
@@ -268,7 +268,7 @@ function success(){
         let pointTone = sqrt(audioArray[i].y * audioArray[i].y);
         // fill(success_color)
 
-        stroke(success_color);
+        stroke(success_color,0,0);
         // fill(success_color);
         // ellipse(audioArray[i].x, audioArray[i].y, 10, 10);
         triOsc.freq(pointTone*.5);
