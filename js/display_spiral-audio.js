@@ -1,4 +1,11 @@
 let drawing = [];
+
+let allDrawingPts = [];
+let allAudioPtsToDraw = [];
+let allAudioPtsToPlay = [];
+
+let drawNo=0;
+
 let database;
 
 let scaleAdd = 1;
@@ -17,6 +24,12 @@ var releaseTime = 0.5;
 var env, triOsc;
 
 let ln;
+let lnA;
+
+let currentNotes = 0;
+let noteToPlay = 0;
+
+let timer = 0;
 
 function setup() {
     createCanvas(windowWidth,windowHeight);
@@ -37,14 +50,15 @@ function setup() {
 	//database object
 	database = firebase.database();
 
-	let ref = database.ref('drawings');
-	ref.on('value', gotData, errData);
+	let drawingRef = database.ref('drawings');
+	drawingRef.on('value', gotDrawingData, errData);
+
+  let audioRef = database.ref('audio');
+  audioRef.on('value', gotAudioData, errData);
 
     background(30);
     frameRate(60);
-    setTimeout(drawAllLines, 200)
-
-
+    setTimeout(drawAllLines, 200);
 
   // envelope code
   env = new p5.Env();
@@ -55,7 +69,7 @@ function setup() {
   triOsc.amp(env);
   triOsc.start();
 
-
+  setInterval(playPointAudio, 1000);
 
 }
 
@@ -63,25 +77,14 @@ function draw() {
 
     background(30);
     drawAllLines();
+    // drawPointAudio();
     text(frameRate(),0,50);
     text(allDrawingPts.length,0,100);
+
 }
 
-let allDrawingPts = [];
-let drawNo=0;
 
-
-//play envelope
-function playEnv(){
-    env.play();
-  }
-  
-  function tracking(audioX,audioY){
-    ellipse(audioX, audioY, 50, 50);
-  }
-  
-  
-function gotData(data) {
+function gotDrawingData(data) {
 	let drawings = data.val();
     let keys = Object.keys(drawings);
     ln=keys.length;
@@ -94,7 +97,24 @@ function gotData(data) {
         // console.log(snapshot.val());
         allDrawingPts.push(snapshot.val());
         });
+	}
+}
 
+function gotAudioData(data) {
+	let audio = data.val();
+    let keys = Object.keys(audio);
+    lnA=keys.length;
+    allAudioPtsToDraw=[];
+    allAudioPtsToPlay=[];
+	for (let i=0; i<keys.length; i++) {
+		let key = keys[i];
+        // console.log(key);
+        var audioCountRef = firebase.database().ref('audio/' + key );
+        audioCountRef.on('value', function(snapshot) {
+        // console.log(snapshot.val());
+        allAudioPtsToDraw.push(snapshot.val());
+        allAudioPtsToPlay.push(snapshot.val());
+        });
 	}
 }
 
@@ -105,20 +125,20 @@ function errData(err) {
 }
 
 function drawAllLines(){
+
     beginShape(TRIANGLES);
     stroke(230);
     strokeWeight(0.5);
     noFill();
-    
-    
+
     let mPos=map(mouseY,0,windowHeight,0,1);
-    
-    for(var i = 0; i<allDrawingPts.length; i++){
+
+    for(let i = 0; i<allDrawingPts.length; i++){
         push();
         translate(windowWidth/2,windowHeight/2)
         beginShape();
         // stroke(random(240))
-        for(var j = 0; j < allDrawingPts[i].length; j++){
+        for(let j = 0; j < allDrawingPts[i].length; j++){
             stroke(i*30)
             allDrawingPts[i][j].y= allDrawingPts[i][j].y*map(mouseY,0,windowHeight,0.95,0.99);
             // allDrawingPts[i][j].y*=0.98
@@ -128,29 +148,12 @@ function drawAllLines(){
             // let x=ry*sin(globalpos)*1
             // let y = rx*cos(globalpos)*1;
 
-            let r=map(map(allDrawingPts[i][j].y*0.5,0,1000,0,20),map(allDrawingPts[i][0].y*0.5,0,1000,0,20),map(allDrawingPts[i][allDrawingPts[i].length-1].y*0.5,0,1000,0,20), 0+rpos , 1+rpos);
+            let r=map(map(allDrawingPts[i][j].y*0.5,0,1000,0,20),map(allDrawingPts[i][0].y*0.5,0,1000,0,20),map(allDrawingPts[i][allDrawingPts[i].length-1].y*0.5,0,1000,0,20), 0+rpos , 2+rpos);
             let x=r*sin(allDrawingPts[i][j].x*0.001)*1
             let y = r*cos(allDrawingPts[i][j].x*0.001)*1;
 
             vertex(x*0.1,y*0.1);
-            
-            
-            if ((millis() % 1000) == 0) {
 
-
-                // k+=25;
-                //   noStroke();
-                stroke(255,0,0);
-                fill(255,255,255);
-                ellipse(x*0.1,y*0.1,10,10);
-                triOsc.freq((allDrawingPts[i][j].x+allDrawingPts[i][j].y)/2);
-                    // console.log(allDrawingPts[i][k].x,"!")
-                //   tracking(allDrawingPts[i][k].x, allDrawingPts[i][k].y/scaleCons+heightCons);
-
-
-                env.play();
-                
-            }
             noFill();
             stroke(255);
             if(i===allDrawingPts.length-1){
@@ -160,18 +163,66 @@ function drawAllLines(){
             endShape();
             globalpos+=0.01;
             rpos+=map(mouseX,0,width,0.1,2);
-            
+
         }
+
+
+        for(let j = 0; j < allAudioPtsToDraw[i].length; j++){
+            allAudioPtsToDraw[i][j].y = allAudioPtsToDraw[i][j].y*map(mouseY,0,windowHeight,0.95,0.99);
+
+            let r=map(map(allAudioPtsToDraw[i][j].y*0.5,0,1000,0,20),map(allAudioPtsToDraw[i][0].y*0.5,0,1000,0,20),map(allAudioPtsToDraw[i][allAudioPtsToDraw[i].length-1].y*0.5,0,1000,0,20), 0+rpos , 2+rpos);
+            let x=r*sin(allAudioPtsToDraw[i][j].x*0.001)*1
+            let y = r*cos(allAudioPtsToDraw[i][j].x*0.001)*1;
+
+            fill(255,255,255);
+
+            if(i == currentNotes && j == noteToPlay) {
+              ellipse(x*0.1,y*0.1,10,10);
+            }
+
+
+            globalpos+=0.01;
+            rpos+=map(mouseX,0,width,0.1,2);
+        }
+
         pop();
-        
-    }
+
+      }
+
     rpos=10
     if(globalpos>100){
-        console.log(globalpos); 
+        // console.log(globalpos);
         globalpos=100;
     }
 }
+
 let rpos=10
 let globalpos=0;
 
 
+function playPointAudio() {
+
+    triOsc.freq(sqrt(allAudioPtsToPlay[currentNotes][noteToPlay].x * allAudioPtsToPlay[currentNotes][noteToPlay].y) / 4);
+
+    env.play();
+
+    // console.log(currentNotes);
+    // console.log(allAudioPtsToPlay.length);
+
+    // console.log(noteToPlay);
+    // console.log(allAudioPtsToPlay[currentNotes].length);
+
+    ellipse(allAudioPtsToPlay[currentNotes][noteToPlay].x, allAudioPtsToPlay[currentNotes][noteToPlay].y,50,50);
+
+
+    if (currentNotes >= allAudioPtsToPlay.length - 1) {
+      currentNotes = 0;
+    }
+
+    if (noteToPlay < allAudioPtsToPlay[currentNotes].length - 1) {
+        noteToPlay++;
+    } else {
+        currentNotes++;
+        noteToPlay = 0;
+    }
+}
