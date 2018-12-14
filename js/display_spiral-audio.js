@@ -29,6 +29,8 @@ let lnA;
 let currentNotes = 0;
 let noteToPlay = 0;
 
+let noteFade = 230;
+
 let timer = 0;
 
 function setup() {
@@ -174,11 +176,14 @@ function drawAllLines(){
             let x=r*sin(allAudioPtsToDraw[i][j].x*0.001)*1
             let y = r*cos(allAudioPtsToDraw[i][j].x*0.001)*1;
 
-            fill(255,255,255);
+            noStroke();
+            fill(noteFade, noteFade);
 
-            if(i == currentNotes && j == noteToPlay) {
+          if(i == currentNotes && j == noteToPlay) {
+              noteFade-=5;
               ellipse(x*0.1,y*0.1,10,10);
-            }
+          }
+
 
 
             globalpos+=0.01;
@@ -206,13 +211,18 @@ function playPointAudio() {
 
     env.play();
 
+
+
+
+    noteFade = 230;
+
     // console.log(currentNotes);
     // console.log(allAudioPtsToPlay.length);
 
     // console.log(noteToPlay);
     // console.log(allAudioPtsToPlay[currentNotes].length);
 
-    ellipse(allAudioPtsToPlay[currentNotes][noteToPlay].x, allAudioPtsToPlay[currentNotes][noteToPlay].y,50,50);
+    // ellipse(allAudioPtsToPlay[currentNotes][noteToPlay].x, allAudioPtsToPlay[currentNotes][noteToPlay].y,50,50);
 
 
     if (currentNotes >= allAudioPtsToPlay.length - 1) {
