@@ -5,8 +5,8 @@ let isConnected = false;
 let database;
 let drawing = [];
 let drawingToSave = [];
-let audioArray = [];
-let audioToSave = [];
+let audioToPlay = [];
+let audioToDraw = [];
 let ln=0;
 
 let timer = 0;
@@ -15,12 +15,17 @@ let audioTimer = 0;
 var attackLevel = 1.0;
 var releaseLevel = 0;
 
-var attackTime = 0.001
+var attackTime = 0.1
 var decayTime = 0.2;
 var susPercent = 0.2;
 var releaseTime = 0.5;
 
-var env, triOsc;
+let pointTone = 0 ;
+
+let midiValue = 0;
+let freqValue = 0;
+
+var env, sineOsc;
 
 function setup() {
     createCanvas(1200, 900);
@@ -50,9 +55,9 @@ function setup() {
     env.setADSR(attackTime, decayTime, susPercent, releaseTime);
     env.setRange(attackLevel, releaseLevel);
 
-    triOsc = new p5.Oscillator('sine');
-    triOsc.amp(env);
-    triOsc.start();
+    sineOsc = new p5.Oscillator('sine');
+    sineOsc.amp(env);
+    sineOsc.start();
 
 
     drawEndpoints();
@@ -95,9 +100,13 @@ function saveDrawing() {
 	let drawingResult = drawingRef.push(drawingToSave, dataSent);
 	console.log("drawing - ", drawingResult.key);
 
-  let audioRef = database.ref('audio');
-  let audioResult = audioRef.push(audioToSave, dataSent);
-  console.log("audio - ", audioResult.key);
+  let audioToDrawRef = database.ref('audioToDraw');
+  let audioToDrawResult = audioToDrawRef.push(audioToDraw, dataSent);
+  console.log("audio - ", audioToDrawResult.key);
+
+  let audioToPlayRef = database.ref('audioToPlay');
+  let audioToPlayResult = audioToPlayRef.push(audioToPlay, dataSent);
+  console.log("audio - ", audioToPlayResult.key);
 
 	function dataSent() {
 		console.log(status);
@@ -123,6 +132,7 @@ function errData(err) {
 function drawLine(){
     // check if line begun
     background(30);
+    sineOsc.freq(freqValue + pointTone);
 
     if(isDrawing===true){
 
@@ -134,16 +144,17 @@ function drawLine(){
             x: mouseX+ln*800,
             y: mouseY
         }
-        var audioPoint = {
+        var audioPointToPlay = {
             x: mouseX,
             y: mouseY
         }
-        var audioPointToSave = {
+        var audioPointToDraw = {
             x: mouseX+ln*800,
             y: mouseY
         }
         // add points to drawing
         drawing.push(point);
+
 
         if (millis() > timer) {
           drawingToSave.push(pointToSave);
@@ -151,8 +162,8 @@ function drawLine(){
         }
 
         if (millis() > audioTimer) {
-          audioArray.push(audioPoint);
-          audioToSave.push(audioPointToSave);
+          audioToPlay.push(audioPointToPlay);
+          audioToDraw.push(audioPointToDraw);
           audioTimer = millis() + 1000;
 
           env.play();
@@ -170,13 +181,17 @@ function drawLine(){
         vertex(drawing[i].x,drawing[i].y);
     }
 
-    for(var i=0; i<audioArray.length; i++){
-        let pointTone = sqrt(audioToSave[i].x * audioToSave[i].y);
+    for(var i=0; i<audioToPlay.length; i++){
+        pointTone = int(map(audioToPlay[i].y, 0, 900, 0, -250)) ;
 
-        stroke(pointTone);
-        fill(pointTone);
-        ellipse(audioArray[i].x, audioArray[i].y, 10, 10);
-        triOsc.freq(pointTone*.5);
+        midiValue = int(map(audioToPlay[i].x, 0, 1200, 60, 70));
+        freqValue = midiToFreq(midiValue);
+
+        console.log(midiValue);
+
+        stroke(255);
+        fill(255);
+        ellipse(audioToPlay[i].x, audioToPlay[i].y, 10, 10);
     }
 
     stroke(230);
@@ -200,8 +215,8 @@ function touchEnded(){
         console.log("failed to connect homie");
         drawing=[];
         drawingToSave=[];
-        audioArray=[];
-        audioToSave=[];
+        audioToPlay=[];
+        audioToDraw=[];
         background(30);
         drawEndpoints();
     }
@@ -243,8 +258,8 @@ function resetDrawing(){
 	console.log("connected homie");
     drawing=[];
     drawingToSave=[];
-    audioArray=[];
-    audioToSave=[];
+    audioToPlay=[];
+    audioToDraw=[];
 	background(30);
     // drawEndpoints();
 }
@@ -264,14 +279,17 @@ function success(){
         vertex(drawing[i].x,drawing[i].y);
     }
 
-    for(var i=0; i<audioArray.length; i++){
-        let pointTone = sqrt(audioArray[i].y * audioArray[i].y);
+    for(var i=0; i<audioToPlay.length; i++){
+
+        // sineOsc.freq(freqValue + pointTone);
+
+
+
         // fill(success_color)
 
         stroke(success_color,0,0);
         // fill(success_color);
-        // ellipse(audioArray[i].x, audioArray[i].y, 10, 10);
-        triOsc.freq(pointTone*.5);
+        // ellipse(audioToPlay[i].x, audioToPlay[i].y, 10, 10);
     }
 
 
@@ -284,7 +302,7 @@ function success(){
         success_color=230;
         resetDrawing();
         isConnected=!isConnected;
-        audioArray=[];
+        audioToPlay=[];
         background(30);
         drawEndpoints();
     }

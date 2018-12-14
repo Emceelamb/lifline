@@ -16,7 +16,7 @@ let heightCons = 0;
 var attackLevel = 1.0;
 var releaseLevel = 0;
 
-var attackTime = 0.001
+var attackTime = 0.1
 var decayTime = 0.2;
 var susPercent = 0.2;
 var releaseTime = 0.5;
@@ -55,8 +55,11 @@ function setup() {
 	let drawingRef = database.ref('drawings');
 	drawingRef.on('value', gotDrawingData, errData);
 
-  let audioRef = database.ref('audio');
-  audioRef.on('value', gotAudioData, errData);
+  let audioToDrawRef = database.ref('audioToDraw');
+  audioToDrawRef.on('value', gotAudioToDrawData, errData);
+
+  let audioToPlayRef = database.ref('audioToPlay');
+  audioToPlayRef.on('value', gotAudioToPlayData, errData);
 
     background(30);
     frameRate(60);
@@ -102,23 +105,38 @@ function gotDrawingData(data) {
 	}
 }
 
-function gotAudioData(data) {
+function gotAudioToDrawData(data) {
 	let audio = data.val();
     let keys = Object.keys(audio);
     lnA=keys.length;
     allAudioPtsToDraw=[];
+	for (let i=0; i<keys.length; i++) {
+		let key = keys[i];
+        // console.log(key);
+        var audioToDrawCountRef = firebase.database().ref('audioToDraw/' + key );
+        audioToDrawCountRef.on('value', function(snapshot) {
+        // console.log(snapshot.val());
+        allAudioPtsToDraw.push(snapshot.val());
+        });
+	}
+}
+
+function gotAudioToPlayData(data) {
+	let audio = data.val();
+    let keys = Object.keys(audio);
+    lnA=keys.length;
     allAudioPtsToPlay=[];
 	for (let i=0; i<keys.length; i++) {
 		let key = keys[i];
         // console.log(key);
-        var audioCountRef = firebase.database().ref('audio/' + key );
-        audioCountRef.on('value', function(snapshot) {
+        var audioToPlayCountRef = firebase.database().ref('audioToPlay/' + key );
+        audioToPlayCountRef.on('value', function(snapshot) {
         // console.log(snapshot.val());
-        allAudioPtsToDraw.push(snapshot.val());
         allAudioPtsToPlay.push(snapshot.val());
         });
 	}
 }
+
 
 let r=50;
 
@@ -180,7 +198,7 @@ function drawAllLines(){
             fill(noteFade, noteFade);
 
           if(i == currentNotes && j == noteToPlay) {
-              noteFade-=5;
+              noteFade-=10;
               ellipse(x*0.1,y*0.1,10,10);
           }
 
@@ -206,8 +224,14 @@ let globalpos=0;
 
 
 function playPointAudio() {
+    let pointTone = int(map(allAudioPtsToPlay[currentNotes][noteToPlay].y, 0, 900, 0,-250)) ;
 
-    triOsc.freq(sqrt(allAudioPtsToPlay[currentNotes][noteToPlay].x * allAudioPtsToPlay[currentNotes][noteToPlay].y) / 4);
+    let midiValue = int(map(allAudioPtsToPlay[currentNotes][noteToPlay].x, 0, 1200, 60, 70));
+    let freqValue = midiToFreq(midiValue);
+
+    console.log(midiValue);
+
+    triOsc.freq(freqValue + pointTone);
 
     env.play();
 
