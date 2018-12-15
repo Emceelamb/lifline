@@ -87,7 +87,7 @@ function setup() {
     serial.on("list", printList); // callback function for serialport list event
     serial.on("data", serialEvent); // callback for new data coming in
     serial.list(); // list the serial ports
-    serial.open("/dev/ttyACM0"); // open a port
+    serial.open("cu.usbmodem1421"); // open a port
     }
 
     function draw() {
@@ -158,7 +158,7 @@ function drawAllLines() {
     strokeWeight(0.5);
     noFill();
 
-    let mPos = map(rag, 1023, 0, 0, 1);
+    // let mPos = map(rag, 1023, 0, 0, 1);
 
     for (let i = 0; i < allDrawingPts.length; i++) {
         push();
@@ -191,21 +191,12 @@ function drawAllLines() {
         }
 
         for (let j = 0; j < allAudioPtsToDraw[i].length; j++) {
-            allDrawingPts[i][j].y = allDrawingPts[i][j].y * map(rag, 1023, 0, 0.95, 0.99);
+            allAudioPtsToDraw[i][j].y = allAudioPtsToDraw[i][j].y * map(rag, 1023, 0, 0.95, 0.99);
 
         let r = map(
             map(allAudioPtsToDraw[i][j].y * 0.5, 0, 1000, 0, 20),
             map(allAudioPtsToDraw[i][0].y * 0.5, 0, 1000, 0, 20),
-            map(
-            allAudioPtsToDraw[i][allAudioPtsToDraw[i].length - 1].y * 0.5,
-            0,
-            1000,
-            0,
-            20
-            ),
-            0 + rpos,
-            2 + rpos
-        );
+            map(allAudioPtsToDraw[i][allAudioPtsToDraw[i].length - 1].y * 0.5, 0, 1000, 0, 20), 0 + rpos, 2 + rpos);
         let x = r * sin(allAudioPtsToDraw[i][j].x * 0.001) * 1;
         let y = r * cos(allAudioPtsToDraw[i][j].x * 0.001) * 1;
 
@@ -244,7 +235,7 @@ function playPointAudio() {
     );
     let freqValue = midiToFreq(midiValue);
 
-    console.log(midiValue);
+    // console.log(midiValue);
 
     sineOsc.freq(freqValue + pointTone);
 
@@ -288,7 +279,7 @@ function printList(portList) {
 function serialEvent() {
     // this is called when data is recieved, data will then live in fromSerial
     var stringFromSerial = serial.readLine();
-    // console.log(stringFromSerial);
+    console.log(stringFromSerial);
     // reads everything till the new line charecter
     if (stringFromSerial.length > 0) {
         // is the something there ?
