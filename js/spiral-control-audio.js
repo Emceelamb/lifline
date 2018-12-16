@@ -198,7 +198,7 @@ function drawAllLines() {
         // vertex(allDrawingPts[i][j].x*mPos,allDrawingPts[i][j].y*mPos)
         endShape();
         globalpos += 0.01;
-        rpos += map(mouseX, 0, width, 0.1, 2);
+        rpos += map(rad, 1023, 0, 0.1, 0.5);
         }
 
         for (let j = 0; j < allAudioPtsToDraw[i].length; j++) {
