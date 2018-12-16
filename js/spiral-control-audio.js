@@ -172,26 +172,15 @@ function drawAllLines() {
         // stroke(i * 30);
         allDrawingPts[i][j].y = allDrawingPts[i][j].y * map(rag, 1023, 0, 0.95, 0.99);
 
-        let r = map(
-            map(allDrawingPts[i][j].y * 0.5, 0, 1000, 0, 20),
-            map(allDrawingPts[i][0].y * 0.5, 0, 1000, 0, 20),
-            map(
-            allDrawingPts[i][allDrawingPts[i].length - 1].y * 0.5,
-            0,
-            1000,
-            0,
-            20
-            ),
-            0 + rpos,
-            2 + rpos
-        );
+        let r=map(map(allDrawingPts[i][j].y*0.5,0,1000,0,20),map(allDrawingPts[i][0].y*0.5,0,1000,0,20),map(allDrawingPts[i][allDrawingPts[i].length-1].y*0.5,0,1000,0,20), rpos , 1+rpos);
+
         let x = r * sin(allDrawingPts[i][j].x * 0.001) * 1;
         let y = r * cos(allDrawingPts[i][j].x * 0.001) * 1;
 
         vertex(x * 0.1, y * 0.1);
 
         noFill();
-        stroke(255);
+        // stroke(255);
         if (i === allDrawingPts.length - 1) {
             stroke(255, 0, 0);
         }
