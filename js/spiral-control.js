@@ -209,8 +209,8 @@ function serialEvent() {
     if (stringFromSerial.length > 0) {             // is the something there ?
         var trimmedString = trim(stringFromSerial);  // get rid of all white space
         var myArray = split(trimmedString, ",")      // splits the string into an array on commas
-        rad = Number(myArray[0]);             // get the first item in the array and turn into integer
-        rag = Number(myArray[1]); 					 // get the second item in the array and turn into integer
+        rad = Number(myArray[1]);             // get the first item in the array and turn into integer
+        rag = Number(myArray[0]); 					 // get the second item in the array and turn into integer
         col = Number(myArray[2]);
     }
 }
