@@ -1,0 +1,371 @@
+[33mcommit 23099e138153472c5ae385fe194ecb517f75430a[m[33m ([m[1;36mHEAD[m[33m)[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sat Dec 15 21:00:57 2018 -0500
+
+    fixing stuf
+
+[33mcommit bfc2c8b66530744efb7c62d383399114ade21b6f[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sat Dec 15 20:51:40 2018 -0500
+
+    resync spiral and control
+
+[33mcommit 909fc4e258b6c7cc0a5cda62af9768fa90cd90e1[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sat Dec 15 20:42:07 2018 -0500
+
+    combined serial and spiral
+
+[33mcommit 1f4f93d9e5991f1ee28d23ec65c256ede642ffd1[m
+Author: Casey Conchinha <kcconch@gmail.com>
+Date:   Fri Dec 14 17:34:10 2018 -0500
+
+    changed playback rate
+
+[33mcommit 36f1a45c047bfb6288c9c12a0bb4261fa726a78c[m
+Merge: 0622c92 3331882
+Author: Casey Conchinha <kcconch@gmail.com>
+Date:   Fri Dec 14 17:33:09 2018 -0500
+
+    Merge branch 'master' of https://github.com/Emceelamb/lifline
+
+[33mcommit 0622c92f9fe8bda48d403b106b30a1abf0383c01[m
+Author: Casey Conchinha <kcconch@gmail.com>
+Date:   Fri Dec 14 17:33:01 2018 -0500
+
+    plays last drawing
+
+[33mcommit 3331882afce656871ffe27c2e328a395c63b468f[m
+Author: Casey Conchinha <kcconch@gmail.com>
+Date:   Fri Dec 14 17:23:59 2018 -0500
+
+    plays last drawing
+
+[33mcommit ac966138f4a4d18ce93ba5b95df1509d2ebe130f[m
+Author: Casey Conchinha <kcconch@gmail.com>
+Date:   Fri Dec 14 17:11:08 2018 -0500
+
+    changed triOsc to sineOsc
+
+[33mcommit 8324f7934e6f7bffdef2942831d244d9494dad39[m
+Author: kcconch <kcconch@gmail.com>
+Date:   Fri Dec 14 14:33:15 2018 -0500
+
+    audio now consistent between drawing and display, tweaked env settings
+
+[33mcommit f4adeb754798c1bfdcaaf44cb92afa82daf8b56c[m
+Author: kcconch <kcconch@gmail.com>
+Date:   Fri Dec 14 12:03:08 2018 -0500
+
+    added a fade to the audio ellipse
+
+[33mcommit 1fd80a5ecb7e8ac3dc1a3eebb8708824dbe93f29[m
+Author: kcconch <kcconch@gmail.com>
+Date:   Thu Dec 13 22:03:21 2018 -0500
+
+    changed success color & audio heard while drawing == audio that is saved
+
+[33mcommit f7c09711bc706b7f3bc33c090b98372dbb5591df[m
+Author: kcconch <kcconch@gmail.com>
+Date:   Thu Dec 13 21:51:41 2018 -0500
+
+    YES! plays all notes of each drawing now & shows the current note played
+
+[33mcommit 78d4d8daecb35a7aa3e7db5ca465d65acac3db56[m
+Author: emceelamb <marktranquilizerlam@gmail.com>
+Date:   Wed Dec 12 01:26:06 2018 -0500
+
+    adding physical controls
+
+[33mcommit 8e6e3be2c94e44caf17513c65a89320ba0768326[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Mon Dec 10 18:28:30 2018 -0500
+
+    tweaks to spiral
+
+[33mcommit dbe2d0b6057b763cc5689dd52a9fe1dc90f38713[m
+Author: kcconch <kcconch@gmail.com>
+Date:   Mon Dec 10 15:13:21 2018 -0500
+
+    loaded the audio pts successfuly, can't get them to play iteratively
+
+[33mcommit f9a429e529862c8ea042e1a3d4be226aecf6798e[m
+Author: kcconch <kcconch@gmail.com>
+Date:   Mon Dec 10 15:12:09 2018 -0500
+
+    audio points get pushed as a second array
+
+[33mcommit 25e0a938199323beea15b2dab7aff440b179c471[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Mon Dec 10 00:51:05 2018 -0500
+
+     add color to last drawn line display_spiral-audio
+
+[33mcommit b6fbec4f1fe722e61e6142343a0ef6e6c01f0501[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Mon Dec 10 00:16:47 2018 -0500
+
+    adjusted zoom
+
+[33mcommit 9d8c982fc61087de1dbd13077a937cb9740af27f[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sun Dec 9 23:49:19 2018 -0500
+
+    add success state
+
+[33mcommit 9d5605e2835cfd464399e313ffe307a25d24a2e0[m
+Author: kcconch <kcconch@gmail.com>
+Date:   Sun Dec 9 15:53:03 2018 -0500
+
+    made audio tone lower pitch and more consistent
+
+[33mcommit 461c6022f8058f2f8fb1259a3eea6e550143a4c2[m
+Author: kcconch <kcconch@gmail.com>
+Date:   Sun Dec 9 15:48:44 2018 -0500
+
+    added draw_touch_with_audio, prototyping separate audio array
+
+[33mcommit f0101a28cc38e62c133826dceaa7c9af410ab656[m
+Author: kcconch <kcconch@gmail.com>
+Date:   Sun Dec 9 14:58:54 2018 -0500
+
+    now saves points every 100ms
+
+[33mcommit 08789424ed1be642b027def75a16ff10d0e2df35[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Tue Dec 4 02:39:00 2018 -0500
+
+    to black
+
+[33mcommit 618663e2103e98a1a990b7032e543e7dcd907d74[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Mon Dec 3 23:37:40 2018 -0500
+
+    control for display
+
+[33mcommit 8dbbd411475aff91d41ad633bfd48ae19899eae8[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Tue Dec 4 03:27:51 2018 -0500
+
+    add spiral
+
+[33mcommit 4a255b5853e9fbafc4dbdb0cb91bb9607d2409ac[m
+Merge: 18186fe 054cdd5
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sun Dec 2 18:48:48 2018 -0500
+
+    Merge branch 'spiral'
+
+[33mcommit 054cdd5ec77aa8d147f6eba89b2c4aea8b52fc1e[m[33m ([m[1;31morigin/spiral[m[33m, [m[1;32mspiral[m[33m)[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sun Dec 2 18:48:13 2018 -0500
+
+     fixed  spral
+
+[33mcommit 18186fee8bf5daac232e80f84b2cb94225415f12[m
+Author: Casey Conchinha <kcconch@gmail.com>
+Date:   Sun Dec 2 18:46:08 2018 -0500
+
+    audio drawing to points, doesn't save
+
+[33mcommit 80ad5f68659f037cc0c6495ad1bc5a352e684468[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sun Dec 2 17:41:11 2018 -0500
+
+    spiral audio:
+
+[33mcommit cca6da80adffaedbff60f86b1b1f9de2945036b3[m
+Merge: 1cbf888 baff177
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sun Dec 2 13:42:26 2018 -0500
+
+    Merge branch 'new_2d' of https://github.com/emceelamb/lifline
+
+[33mcommit 1cbf888531ab8d1ef7f8a9582360d3c9c1e8b8fe[m
+Merge: b93d18a 43651ce
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sun Dec 2 13:36:54 2018 -0500
+
+    Merge branch 'master' of https://github.com/Emceelamb/lifline
+
+[33mcommit b93d18ac9dc4fb66a9f9b81a81d129c5e66ecf1b[m
+Merge: 364f3b6 a0d4b8f
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sun Dec 2 13:36:12 2018 -0500
+
+    Merge branch 'new_2d'
+
+[33mcommit 43651ce4a4d41fe83aee5d0d265348eebb556ec5[m
+Author: kcconch <kcconch@gmail.com>
+Date:   Sun Dec 2 13:00:26 2018 -0500
+
+    working but not any better, seperated lines from audio tracking
+
+[33mcommit ddcf207b164740fbf13dbc280a582e56c3a9e59b[m
+Author: kcconch <kcconch@gmail.com>
+Date:   Sun Dec 2 12:39:03 2018 -0500
+
+    i broke it
+
+[33mcommit 123486f108195d9fab71b578a7b5fa666a7992c6[m
+Author: kcconch <kcconch@gmail.com>
+Date:   Sun Dec 2 11:46:05 2018 -0500
+
+    need to figure out a way of tracking thru each drawing individually
+
+[33mcommit 364f3b6398253902a815e85e1996e3d34fb6c266[m
+Author: kcconch <kcconch@gmail.com>
+Date:   Sun Dec 2 10:54:58 2018 -0500
+
+    prototyping audio playback on continuous line
+
+[33mcommit baff1776e02a56f7473a9c7827504691a23791c4[m[33m ([m[1;31morigin/new_2d[m[33m)[m
+Author: emceelamb <marktranquilizerlam@gmail.com>
+Date:   Sun Dec 2 02:08:30 2018 -0500
+
+    spiral in center
+
+[33mcommit a0d4b8fff97aeb650a43cdd194afc8ab5ed41071[m[33m ([m[1;32mnew_2d[m[33m)[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sat Dec 1 22:46:12 2018 -0500
+
+    add sspiral
+
+[33mcommit 9c711995170542c1758ca347c60242808f636587[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Fri Nov 30 18:06:14 2018 -0500
+
+    redo in 2d
+
+[33mcommit ca7f5af872d18a07678b9dec67fd901c7fdf8a53[m[33m ([m[1;31morigin/v2[m[33m, [m[1;32mv2[m[33m)[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sun Nov 18 19:09:45 2018 -0500
+
+    changed 3d camera display
+
+[33mcommit 41348744eb0678833893536a8c4c56d3075b1de6[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sun Nov 18 00:26:21 2018 -0500
+
+    add 3d database and 3d drawing
+
+[33mcommit b9e7af54ff36bfb0c011f07d02c9da4564b85302[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sat Nov 17 20:24:34 2018 -0500
+
+    fixed ino
+
+[33mcommit 837a9c39f6e474a5a4a27962aba9beffab003572[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sat Nov 17 20:05:08 2018 -0500
+
+    add joystick control
+
+[33mcommit 282b42a3b50f81f4900bb1d1ff506727fe64d690[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Thu Nov 15 19:11:37 2018 -0500
+
+    added 3d version
+
+[33mcommit c68a24e12004a6278679820fdc072d3ed2b49915[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Tue Oct 30 01:08:45 2018 -0400
+
+    thanks dan
+
+[33mcommit 471fc242848b9b57856479796423ffb746b1eea7[m[33m ([m[1;32mtest[m[33m)[m
+Merge: 2e9b86a 4cab8db
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Tue Oct 30 00:58:34 2018 -0400
+
+    resolved merge conflict -- including pan
+
+[33mcommit 4cab8db4e69c8e3d39335260df1f2177b8bffdf1[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Tue Oct 30 00:50:11 2018 -0400
+
+    small changes
+
+[33mcommit 2e9b86a307d53e53eb60cd668ce66d1b0f5a43b8[m[33m ([m[1;31morigin/test[m[33m)[m
+Author: Macbook Pro <macbook@Macbooks-MacBook-Pro-540.local>
+Date:   Mon Oct 29 17:18:41 2018 -0400
+
+    added scroll wheel scaling and panning with the mouseX
+
+[33mcommit 882190f742217843d0871e7ab44cc862e23cf3aa[m[33m ([m[1;32mworking[m[33m)[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sun Oct 28 23:31:33 2018 -0400
+
+    kinda works
+
+[33mcommit 11c216ba38a9e15129a8d935dbd645320e650dbb[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sun Oct 28 23:00:28 2018 -0400
+
+    rm translate
+
+[33mcommit 7fcf6d0dbb35056bdf9155112b914d1c4e6a589f[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sun Oct 28 22:58:28 2018 -0400
+
+     changes
+
+[33mcommit ff7cb5ad2b59f9d713441a6afab676825da281e3[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sun Oct 28 22:58:03 2018 -0400
+
+     changes
+
+[33mcommit 3cf2a28ae03aed0062d8e1a01f81b41b6bd231ad[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sun Oct 28 22:34:28 2018 -0400
+
+    removed js from ignore
+
+[33mcommit 3c2d8b743de29d55ebc26aed0b2dc5e56c318dc7[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sun Oct 28 22:23:38 2018 -0400
+
+    continuos line
+
+[33mcommit 36cf1ea1f1031e38797e5d31ea3d118321354c12[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Sun Oct 28 19:33:59 2018 -0400
+
+    redid drawing logic
+
+[33mcommit 1de9e75a8b14524489fe0599add1612a1e4c175a[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Fri Oct 26 19:50:02 2018 -0400
+
+    combined js files
+
+[33mcommit df73608b1b9eb56008045d694395c8fbd163f86e[m
+Author: Macbook Pro <macbook@10-17-36-118.dynapool.wireless.nyu.edu>
+Date:   Fri Oct 26 18:35:59 2018 -0400
+
+    Added firebase.
+
+[33mcommit 93d8bd94067681f9fc35b3a4eb515cc46f6b9e24[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Fri Oct 26 22:27:44 2018 -0400
+
+    drawing file
+
+[33mcommit 656821b949d6d537d0669aa3700c80b978c05cd9[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Wed Oct 24 22:40:20 2018 -0400
+
+    changed
+
+[33mcommit 61afd54f65e8bf472260168e3a922e2612e30fb4[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Wed Oct 24 21:41:54 2018 -0400
+
+    first commit
+
+[33mcommit ad97ddc5f0fb3cec63fa34618ae8ee047baa541c[m
+Author: emceelamb <mlam@berkeley.edu>
+Date:   Wed Oct 24 21:40:18 2018 -0400
+
+    first commit
