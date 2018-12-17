@@ -7,7 +7,7 @@ let drawing = [];
 let drawingToSave = [];
 let audioToPlay = [];
 let audioToDraw = [];
-let ln=0;
+let ln = 0;
 
 let timer = 0;
 let audioTimer = 0;
@@ -20,7 +20,7 @@ var decayTime = 0.2;
 var susPercent = 0.2;
 var releaseTime = 0.5;
 
-let pointTone = 0 ;
+let pointTone = 0;
 
 let midiValue = 0;
 let freqValue = 0;
@@ -30,7 +30,7 @@ var env, sineOsc;
 function setup() {
     createCanvas(1200, 900);
     background(30);
-	// Initialize Firebase
+    // Initialize Firebase
     var config = {
         apiKey: "AIzaSyAsQomaBoDzBMXfNrQpf2qVcLdfSed08JY",
         authDomain: "dcontinuousline.firebaseapp.com",
@@ -41,14 +41,14 @@ function setup() {
     };
 
 
-	firebase.initializeApp(config);
-	console.log(firebase);
+    firebase.initializeApp(config);
+    console.log(firebase);
 
-	//database object
-	database = firebase.database();
+    //database object
+    database = firebase.database();
 
-  	let drawingRef = database.ref('drawings');
-  	drawingRef.on('value', gotData, errData);
+    let drawingRef = database.ref('drawings');
+    drawingRef.on('value', gotData, errData);
 
     //envelope code
     env = new p5.Env();
@@ -68,13 +68,13 @@ function draw() {
 
     // console.log(mouseX, mouseY, timer);
 
-    fill(255,0,0);
+    fill(255, 0, 0);
 
-    if(mouseIsPressed&&mouseX > 85 && mouseX < 115 && mouseY < height/2 + 15 && mouseY > height/2 - 15 ){
+    if (mouseIsPressed && mouseX > 65 && mouseX < 125 && mouseY < height / 2 + 25 && mouseY > height / 2 - 25) {
         console.log("mouse is in start")
         isDrawing = true;
     }
-    if(isConnected&&mouseX < width-85 && mouseX > width-95 && mouseY < height/2 + 15 && mouseY > height/2 - 15){
+    if (isConnected && mouseX < width - 75 && mouseX > width - 105 && mouseY < height / 2 + 25 && mouseY > height / 2 - 25) {
         console.log("mouse is in end")
         isDrawing = false;
     }
@@ -87,61 +87,61 @@ function draw() {
     drawLine();
 
 
-	if(isConnected){        // resetDrawing();
+    if (isConnected) {        // resetDrawing();
         success();
-	}
+    }
 
 }
 
 function saveDrawing() {
 
-	//reference drawings location
-	let drawingRef = database.ref('drawings');
-	let drawingResult = drawingRef.push(drawingToSave, dataSent);
-	console.log("drawing - ", drawingResult.key);
+    //reference drawings location
+    let drawingRef = database.ref('drawings');
+    let drawingResult = drawingRef.push(drawingToSave, dataSent);
+    console.log("drawing - ", drawingResult.key);
 
-  let audioToDrawRef = database.ref('audioToDraw');
-  let audioToDrawResult = audioToDrawRef.push(audioToDraw, dataSent);
-  console.log("audio - ", audioToDrawResult.key);
+    let audioToDrawRef = database.ref('audioToDraw');
+    let audioToDrawResult = audioToDrawRef.push(audioToDraw, dataSent);
+    console.log("audio - ", audioToDrawResult.key);
 
-  let audioToPlayRef = database.ref('audioToPlay');
-  let audioToPlayResult = audioToPlayRef.push(audioToPlay, dataSent);
-  console.log("audio - ", audioToPlayResult.key);
+    let audioToPlayRef = database.ref('audioToPlay');
+    let audioToPlayResult = audioToPlayRef.push(audioToPlay, dataSent);
+    console.log("audio - ", audioToPlayResult.key);
 
-	function dataSent() {
-		console.log(status);
-	}
+    function dataSent() {
+        console.log(status);
+    }
 }
 
 function gotData(data) {
-	let drawings = data.val();
-	let keys = Object.keys(drawings);
-	for (let i=0; i<keys.length; i++) {
-		let key = keys[i];
-		console.log(key);
+    let drawings = data.val();
+    let keys = Object.keys(drawings);
+    for (let i = 0; i < keys.length; i++) {
+        let key = keys[i];
+        console.log(key);
     }
     ln = keys.length;
 }
 
 function errData(err) {
-	console.log(err);
+    console.log(err);
 }
 
 
 
-function drawLine(){
+function drawLine() {
     // check if line begun
     background(30);
     sineOsc.freq(freqValue + pointTone);
 
-    if(isDrawing===true){
+    if (isDrawing === true) {
 
         var point = {
             x: mouseX,
             y: mouseY
         }
         var pointToSave = {
-            x: mouseX+ln*800,
+            x: mouseX + ln * 800,
             y: mouseY
         }
         var audioPointToPlay = {
@@ -149,7 +149,7 @@ function drawLine(){
             y: mouseY
         }
         var audioPointToDraw = {
-            x: mouseX+ln*800,
+            x: mouseX + ln * 800,
             y: mouseY
         }
         // add points to drawing
@@ -157,16 +157,17 @@ function drawLine(){
 
 
         if (millis() > timer) {
-          drawingToSave.push(pointToSave);
-          timer = millis() + 100;
+            drawingToSave.push(pointToSave);
+            
+            timer = millis() + 100;
         }
 
         if (millis() > audioTimer) {
-          audioToPlay.push(audioPointToPlay);
-          audioToDraw.push(audioPointToDraw);
-          audioTimer = millis() + 1000;
+            audioToPlay.push(audioPointToPlay);
+            audioToDraw.push(audioPointToDraw);
+            audioTimer = millis() + 1000;
 
-          env.play();
+            env.play();
         }
 
     }
@@ -177,12 +178,12 @@ function drawLine(){
     noFill();
 
     push();
-    for(var i=0; i<drawing.length; i++){
-        vertex(drawing[i].x,drawing[i].y);
+    for (var i = 0; i < drawing.length; i++) {
+        vertex(drawing[i].x, drawing[i].y);
     }
 
-    for(var i=0; i<audioToPlay.length; i++){
-        pointTone = int(map(audioToPlay[i].y, 0, 900, 0, -250)) ;
+    for (var i = 0; i < audioToPlay.length; i++) {
+        pointTone = int(map(audioToPlay[i].y, 0, 900, 0, -250));
 
         midiValue = int(map(audioToPlay[i].x, 0, 1200, 60, 70));
         freqValue = midiToFreq(midiValue);
@@ -204,82 +205,88 @@ function drawLine(){
     drawEndpoints();
 }
 
-function touchEnded(){
+function touchEnded() {
     // var fs = fullscreen();
     fullscreen(true);
-    ellipse(mouseX, mouseY, 30,30)
-    if(mouseX < width-285 && mouseX > width-315 && mouseY < height/2 + 15 && mouseY > height/2 -15){
+    ellipse(mouseX, mouseY, 30, 30)
+    if (mouseX < width - 275 && mouseX > width - 325 && mouseY < height / 2 + 25 && mouseY > height / 2 - 25) {
         isConnected = true;
-    } else if(!isConnected){
-        isDrawing=false;
+    } else if (!isConnected) {
+        isDrawing = false;
         console.log("failed to connect homie");
-        drawing=[];
-        drawingToSave=[];
-        audioToPlay=[];
-        audioToDraw=[];
+        drawing = [];
+        drawingToSave = [];
+        audioToPlay = [];
+        audioToDraw = [];
         background(30);
         drawEndpoints();
     }
 }
 
-var continuousLine= {"line": drawing};
+var continuousLine = { "line": drawing };
 
-
-function drawEndpoints(){
+let blinkTime = 200;
+function drawEndpoints() {
     // background(30);
     fill(233);
     noStroke();
-
-    if(isDrawing){
+    
+    if (isDrawing) {
 
         push();
         // stroke(150);
-        fill(150);
+        fill(150,0,0);
         // ellipse(100,height/2, 15,15);
-        fill(233);
-        ellipse(width-300,height/2, 30, 30);
+        // fill(233);
+        ellipse(width - 300, height / 2, 50, 50);
         pop();
     } else {
         push();
-        fill(233);
-        ellipse(100,height/2, 30,30);
-        stroke(150);
+        noStroke();
+        noFill();
+
+        fill(150,0,0);
+
+        ellipse(100, height / 2, 50, 50);
 
         fill(150);
-        ellipse(width-300,height/2, 15, 15);
+        // stroke(150);
+
+       
+        ellipse(width - 300, height / 2, 15, 15);
         pop();
     }
 }
 
 
-function resetDrawing(){
-	saveDrawing();
-	isDrawing=false;
-	console.log("connected homie");
-    drawing=[];
-    drawingToSave=[];
-    audioToPlay=[];
-    audioToDraw=[];
-	background(30);
+function resetDrawing() {
+    saveDrawing();
+    isDrawing = false;
+    console.log("connected homie");
+    drawing = [];
+    drawingToSave = [];
+    audioToPlay = [];
+    audioToDraw = [];
+    background(30);
     // drawEndpoints();
 }
 
 let success_color = 230;
 
-function success(){
+function success() {
     background(30);
     beginShape();
-    stroke(success_color,0,0);
+    stroke(success_color, 0, 0);
     strokeWeight(3);
     // noFill();
 
     push();
-    for(var i=0; i<drawing.length; i++){
+    for (var i = 0; i < drawing.length; i++) {
         noFill();
-        vertex(drawing[i].x,drawing[i].y);
+        vertex(drawing[i].x, drawing[i].y);
     }
 
-    for(var i=0; i<audioToPlay.length; i++){
+    for (var i = 0; i < audioToPlay.length; i++) {
 
         // sineOsc.freq(freqValue + pointTone);
 
@@ -287,7 +294,7 @@ function success(){
 
         // fill(success_color)
 
-        stroke(success_color,0,0);
+        stroke(success_color, 0, 0);
         // fill(success_color);
         // ellipse(audioToPlay[i].x, audioToPlay[i].y, 10, 10);
     }
@@ -296,13 +303,13 @@ function success(){
     endShape();
     pop();
     // drawEndpoints();
-    success_color-=2;
-    if (success_color<30){
+    success_color -= 2;
+    if (success_color < 30) {
 
-        success_color=230;
+        success_color = 230;
         resetDrawing();
-        isConnected=!isConnected;
-        audioToPlay=[];
+        isConnected = !isConnected;
+        audioToPlay = [];
         background(30);
         drawEndpoints();
     }
